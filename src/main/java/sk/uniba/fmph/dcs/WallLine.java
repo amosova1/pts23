@@ -7,14 +7,17 @@ import java.util.Optional;
 
 public class WallLine {
     private Tile[] tiles;
-    private ArrayList<Tile> tileTypes;
-    private Map<Tile, Integer> idxOf = new HashMap<>();
-    private Integer N;
+    private final ArrayList<Tile> tileTypes;
+    private final Map<Tile, Integer> idxOf = new HashMap<>();
+    private final Integer N;
+    private final WallLine lineDown, lineUp;
 
-    public WallLine(ArrayList<Tile> tileTypes) {
+    public WallLine(ArrayList<Tile> tileTypes, WallLine lineDown, WallLine lineUp) {
+        this.lineDown = lineDown;
+        this.lineUp = lineUp;
+        this.tileTypes = tileTypes;
         this.N = this.tileTypes.size();
         this.tiles = new Tile[this.N];
-        this.tileTypes = tileTypes;
         for (int idx = 0; idx < this.N; idx++) {
             idxOf.put(this.tileTypes.get(idx), idx);
         }
@@ -50,7 +53,39 @@ public class WallLine {
 
         this.tiles[idx] = tile;
 
-        return new Points(0);
+        int points = 0;
+
+        // horizontal
+        Integer lIdx = idx, rIdx = idx;
+        while (lIdx - 1 >= 0 && this.tiles[lIdx - 1] != null)
+            lIdx--;
+        while (rIdx + 1 < this.N && this.tiles[rIdx + 1] != null)
+            rIdx++;
+        points += rIdx - lIdx + 1;
+
+        // vertical
+        WallLine curLine = this;
+        lIdx = rIdx = 0;
+        while (curLine.lineUp != null) {
+            Optional<Tile>[] upTiles = curLine.lineUp.getTiles();
+            if (upTiles.length <= idx || upTiles[idx].isEmpty())
+                break;
+            
+            rIdx++;
+            curLine = curLine.lineUp;
+        }
+
+        while (curLine.lineDown != null) {
+            Optional<Tile>[] downTiles = curLine.lineDown.getTiles();
+            if (downTiles.length <= idx || downTiles[idx].isEmpty())
+                break;
+            
+            lIdx--;
+            curLine = curLine.lineDown;
+        }
+        points += rIdx - lIdx + 1;
+
+        return new Points(points);
     }
 
     public String state() {
