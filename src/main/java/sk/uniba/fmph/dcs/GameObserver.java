@@ -6,6 +6,8 @@ public class GameObserver implements ObserverInterface{
 
     private ArrayList<ObserverInterface> observers;
 
+    private String state;
+
     private GameObserver(){
         observers = new ArrayList<>();
     }
@@ -30,6 +32,7 @@ public class GameObserver implements ObserverInterface{
 
     @Override
     public void notify(String newState) {
+        this.state = newState;
     }
 
     public void notifyEverybody(String state){
