@@ -28,17 +28,17 @@ public class WallLine {
         if (!this.idxOf.containsKey(tile))
             return false;
         
-        return this.tiles[this.idxOf.get(tile)] != null;
+        return this.tiles[this.idxOf.get(tile)] == null;
     }
 
     Optional<Tile>[] getTiles() {
         @SuppressWarnings("unchecked")
-        Optional<Tile>[] resultTiles = (Optional[]) new Object[this.N];
+        ArrayList<Optional<Tile>> resultTiles = new ArrayList<>();
 
         for (int idx = 0; idx < this.N; idx++)
-            resultTiles[idx] = Optional.of(this.tiles[idx]);
+            resultTiles.add(Optional.ofNullable(this.tiles[idx]));
 
-        return resultTiles;
+        return resultTiles.toArray();
     }
 
     Points putTile(Tile tile) {
