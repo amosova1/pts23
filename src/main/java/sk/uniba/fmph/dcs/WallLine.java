@@ -28,7 +28,7 @@ public class WallLine {
         if (!this.idxOf.containsKey(tile))
             return false;
         
-        return this.tiles[this.idxOf.get(tile)] != null;
+        return this.tiles[this.idxOf.get(tile)] == null;
     }
 
     Optional<Tile>[] getTiles() {
