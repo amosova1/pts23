@@ -17,7 +17,7 @@ public class UsedTyles {
     public String state(){
         StringBuilder ans = new StringBuilder();
         int n = _usedTyles.size();
-        for(int i = 0; i < n; i++) ans.append("Tile no. ").append(i).append(": ").append(_usedTyles.get(i).toString()).append("\n");
+        for (Tile tile : _usedTyles) ans.append(tile.toString());
         return ans.toString();
     }
 

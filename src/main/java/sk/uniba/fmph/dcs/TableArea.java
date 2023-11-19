@@ -32,15 +32,7 @@ public class TableArea{
     public String state(){
         StringBuilder ans = new StringBuilder();
         int i = 0;
-        for(TyleSource tyleSource: _tyleSources){
-            if (tyleSource instanceof TableCenter){
-                ans.append("Table center: \n");
-            } else {
-                ans.append("Factory " + i + " : \n");
-            }
-            ans.append(tyleSource.state());
-            i++;
-        }
+        for (TyleSource tile : _tyleSources) ans.append(tile.toString());
         return ans.toString();
     }
 }
