@@ -4,14 +4,14 @@ import java.util.Optional;
 
 public class FinalPointsCalculation {
 
-    public static Points getPoints(Optional<Tile>[][] wall){
+    public static Points getPoints(List<WallLine> wall){
 
         int points = 0;
 
         for(int i = 0; i < 5; i++){
             boolean rowIncomplete = false;
             for(int j = 0; j < 5; j++){
-                if(!wall[i][j].isPresent()){
+                if(!wall.get(i).getTiles().get(j).isPresent()){
                     rowIncomplete = true;
                     break;
                 }
@@ -24,7 +24,7 @@ public class FinalPointsCalculation {
         for(int i = 0; i < 5; i++){
             boolean columnIncomplete = false;
             for(int j = 0; j < 5; j++){
-                if(!wall[j][i].isPresent()){
+                if(!wall.get(j).getTiles().get(i).isPresent()){
                     columnIncomplete = true;
                     break;
                 }
@@ -37,7 +37,7 @@ public class FinalPointsCalculation {
         for(int i = 0; i < 5; i++){
             boolean colorIncomplete = false;
             for(int j = 0; j < 5; j++){
-                if(!wall[i][(i+j) % 5].isPresent()){
+                if!wall.get(i).getTiles().get((i+j)%5).isPresent()){
                     colorIncomplete = true;
                     break;
                 }

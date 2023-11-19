@@ -6,10 +6,10 @@ import sk.uniba.fmph.dcs.FinishRoundResult;
 
 public class GameFinished {
 
-    public static FinishRoundResult gameFinished(Optional<Tile>[][] wall){
-        for(Optional<Tile>[] row : wall){
+    public static FinishRoundResult gameFinished(List<WallLine> wall){
+        for(WallLine row : wall){
             boolean rowIncomplete = false;
-            for(Optional<Tile> tile : row){
+            for(Optional<Tile> tile : row.getTiles()){
                 if(!tile.isPresent()){
                     rowIncomplete = true;
                     break;
