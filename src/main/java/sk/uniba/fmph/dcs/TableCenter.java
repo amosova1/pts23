@@ -40,8 +40,7 @@ public class TableCenter implements TyleSource{
     @Override
     public String state() {
         StringBuilder ans = new StringBuilder();
-        int n = _tyles.size();
-        for(int i = 0; i < n; i++) ans.append("Tile no. ").append(i).append(": ").append(_tyles.get(i).toString()).append("\n");
+        for (Tile tile : _tyles) ans.append(tile.toString());
         return ans.toString();
     }
 
