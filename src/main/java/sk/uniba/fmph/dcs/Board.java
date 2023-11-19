@@ -73,7 +73,7 @@ public class Board{
         points = new Points(tempResult>0?tempResult:0);
         //if a row is full, end the game
         for (int i = 0; i < 5; i++) {
-            if(wall[i].getTiles().length == 5){
+            if(wall[i].getTiles().size() == 5){
                 endGame();
                 return FinishRoundResult.GAME_FINISHED;
             }
@@ -85,7 +85,7 @@ public class Board{
         FinalPointsCalculation finalPointCalculation = new FinalPointsCalculation();
         Optional<Tile>[][] migratedWall = new Optional[5][5];
         for(int i = 0; i < 5; i++){
-            migratedWall[0] = wall[0].getTiles();
+            migratedWall[0] = wall[0].getTiles().toArray(new Optional[0]);
         }
         points = new Points(finalPointCalculation.getPoints(migratedWall).getValue() + points.getValue());
         new GameFinished();
@@ -110,9 +110,9 @@ public class Board{
         tiles[0] = Tile.RED;
         tiles[2] = Tile.RED;
         board.put(0, tiles );
-        //board.put(1, tiles );
-        //board.put(2, tiles );
-        //board.put(2, tiles );
+        board.put(1, tiles );
+        board.put(2, tiles );
+        board.put(2, tiles );
         String val = board.state();
         System.out.println(val);
         board.finishRound();
