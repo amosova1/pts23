@@ -91,18 +91,18 @@ public class WallLineTest {
 
   @Test
   public void testState() {
-    // ArrayList<Tile> tileTypes = new ArrayList<>();
-    // tileTypes.add(Tile.GREEN);
-    // tileTypes.add(Tile.BLACK);
-    // tileTypes.add(Tile.BLUE);
-    // tileTypes.add(Tile.RED);
-    // tileTypes.add(Tile.YELLOW);
-    // WallLine wallLine = new WallLine(tileTypes, null, null);
+    ArrayList<Tile> tileTypes = new ArrayList<>();
+    tileTypes.add(Tile.GREEN);
+    tileTypes.add(Tile.BLACK);
+    tileTypes.add(Tile.BLUE);
+    tileTypes.add(Tile.RED);
+    tileTypes.add(Tile.YELLOW);
+    WallLine wallLine = new WallLine(tileTypes, null, null);
 
-    // assertEquals("State when WallLine is empty.", "-----", wallLine.state());
-    // wallLine.putTile(Tile.GREEN);
-    // wallLine.putTile(Tile.BLUE);
-    // wallLine.putTile(Tile.RED);
-    // assertEquals("State with some pieces put.", "G-BR-", wallLine.state());
+    assertEquals("State when WallLine is empty.", "-----", wallLine.state());
+    wallLine.putTile(Tile.GREEN);
+    wallLine.putTile(Tile.BLUE);
+    wallLine.putTile(Tile.RED);
+    assertEquals("State with some pieces put.", "G-BR-", wallLine.state());
   }
 }
