@@ -1,16 +1,14 @@
 package sk.uniba.fmph.dcs;
 
 import java.util.Optional;
-
-import sk.uniba.fmph.dcs.FinishRoundResult;
-
+import java.util.List;
 public class GameFinished {
 
     public static FinishRoundResult gameFinished(List<WallLine> wall){
         for(WallLine row : wall){
             boolean rowIncomplete = false;
             for(Optional<Tile> tile : row.getTiles()){
-                if(!tile.isPresent()){
+                if(tile.isEmpty()){
                     rowIncomplete = true;
                     break;
                 }
