@@ -1,6 +1,7 @@
 package sk.uniba.fmph.dcs;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Optional;
@@ -31,12 +32,11 @@ public class WallLine {
         return this.tiles[this.idxOf.get(tile)] == null;
     }
 
-    Optional<Tile>[] getTiles() {
-        @SuppressWarnings("unchecked")
-        Optional<Tile>[] resultTiles = (Optional[]) new Object[this.N];
+    List<Optional<Tile>> getTiles() {
+        ArrayList<Optional<Tile>> resultTiles = new ArrayList<>();
 
         for (int idx = 0; idx < this.N; idx++)
-            resultTiles[idx] = Optional.of(this.tiles[idx]);
+            resultTiles.add(Optional.ofNullable(this.tiles[idx]));
 
         return resultTiles;
     }
@@ -53,37 +53,38 @@ public class WallLine {
 
         this.tiles[idx] = tile;
 
-        int points = 0;
-
         // horizontal
         Integer lIdx = idx, rIdx = idx;
         while (lIdx - 1 >= 0 && this.tiles[lIdx - 1] != null)
             lIdx--;
         while (rIdx + 1 < this.N && this.tiles[rIdx + 1] != null)
             rIdx++;
-        points += rIdx - lIdx + 1;
+        int horizontalPoints = rIdx - lIdx + 1;
 
         // vertical
         WallLine curLine = this;
-        lIdx = rIdx = 0;
+        lIdx = rIdx = 100;
         while (curLine.lineUp != null) {
-            Optional<Tile>[] upTiles = curLine.lineUp.getTiles();
-            if (upTiles.length <= idx || upTiles[idx].isEmpty())
+            List<Optional<Tile>> upTiles = curLine.lineUp.getTiles();
+            if (upTiles.size() <= idx || upTiles.get(idx).isEmpty())
                 break;
             
             rIdx++;
             curLine = curLine.lineUp;
         }
 
+        curLine = this;
         while (curLine.lineDown != null) {
-            Optional<Tile>[] downTiles = curLine.lineDown.getTiles();
-            if (downTiles.length <= idx || downTiles[idx].isEmpty())
+            List<Optional<Tile>> downTiles = curLine.lineDown.getTiles();
+            if (downTiles.size() <= idx || downTiles.get(idx).isEmpty())
                 break;
             
             lIdx--;
             curLine = curLine.lineDown;
         }
-        points += rIdx - lIdx + 1;
+        int verticalPoints = rIdx - lIdx + 1;
+
+        int points = horizontalPoints == 1 && verticalPoints == 1 ? 1 : horizontalPoints + verticalPoints;
 
         return new Points(points);
     }
