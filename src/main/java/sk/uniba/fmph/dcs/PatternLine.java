@@ -23,8 +23,8 @@ public class PatternLine {
         for (final Tile tile : tiles) {
             toReturn += tile.toString();
         }
-        toReturn += " ";
-        return "";
+        toReturn += "\n";
+        return toReturn;
     }
 
 }
