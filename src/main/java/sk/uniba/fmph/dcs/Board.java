@@ -5,7 +5,6 @@ import java.util.*;
 public class Board{
     private Points points;
     private final List<PatternLine> patternLines;
-    private final List<Integer> currentlyInPatternLine;
     private final Floor bin;
     private final List<WallLine> wall;
     public Board(List<PatternLine> patternLines, List<WallLine> wall, Floor floor, Points points) {
@@ -13,11 +12,6 @@ public class Board{
         this.wall = wall;
         this.bin = floor;
         this.points = points;
-        this.currentlyInPatternLine = new ArrayList<>();
-        for (PatternLine patternLine : patternLines){
-            currentlyInPatternLine.add(0);
-        }
-
     }
 
 
@@ -25,17 +19,7 @@ public class Board{
     public void put(int destinationIdx, Tile[] tyles){
         if(destinationIdx < 0 || destinationIdx > patternLines.size())throw new InputMismatchException();
         //insert selected tiles into the board
-        for(Tile tile : tyles){
-            if(tile == Tile.STARTING_PLAYER){
-                bin.put(Collections.singleton(tile));
-            }
-            else if(currentlyInPatternLine.get(destinationIdx) <= destinationIdx){
-                patternLines.get(destinationIdx).put(Collections.singleton(tile));
-                currentlyInPatternLine.set(destinationIdx, currentlyInPatternLine.get(destinationIdx)+1);
-            }
-            else bin.put(Collections.singleton(tile));
-        }
-
+        patternLines.get(destinationIdx).put(List.of(tyles));
     }
     public FinishRoundResult finishRound(){
         //adds tiles to wall and adds points
