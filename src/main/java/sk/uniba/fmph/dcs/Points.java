@@ -18,6 +18,14 @@ public final class Points {
   public int getValue() {
     return value;
   }
+  public void addPoints(int add){
+    if(value + add < 0) value = 0;
+    value += add;
+  }
+  public void addPoints(Points add){
+    if(value + add.getValue() < 0) value = 0;
+    value += add.getValue();
+  }
 
   @Override
   public int hashCode() {

@@ -5,7 +5,6 @@ import java.util.*;
 public class Board{
     private Points points;
     private final List<PatternLine> patternLines;
-    private final List<Integer> currentlyInPatternLine;
     private final Floor bin;
     private final List<WallLine> wall;
     public Board(List<PatternLine> patternLines, List<WallLine> wall, Floor floor, Points points) {
@@ -13,38 +12,25 @@ public class Board{
         this.wall = wall;
         this.bin = floor;
         this.points = points;
-        this.currentlyInPatternLine = new ArrayList<>();
-        for (PatternLine patternLine : patternLines){
-            currentlyInPatternLine.add(0);
-        }
-
     }
 
 
 
     public void put(int destinationIdx, Tile[] tyles){
         if(destinationIdx < 0 || destinationIdx > patternLines.size())throw new InputMismatchException();
-        //insert selected tiles into the board
-        for(Tile tile : tyles){
-            if(tile == Tile.STARTING_PLAYER){
-                bin.put(Collections.singleton(tile));
-            }
-            else if(currentlyInPatternLine.get(destinationIdx) <= destinationIdx){
-                patternLines.get(destinationIdx).put(Collections.singleton(tile));
-                currentlyInPatternLine.set(destinationIdx, currentlyInPatternLine.get(destinationIdx)+1);
-            }
-            else bin.put(Collections.singleton(tile));
-        }
-
+        //insert selected tiles into the selected row of pattern
+        patternLines.get(destinationIdx).put(List.of(tyles));
     }
     public FinishRoundResult finishRound(){
         //adds tiles to wall and adds points
         for (int i = 0; i < 5; i++) {
-            points = new Points(patternLines.get(i).finishRound().getValue()+points.getValue());
+            points.addPoints(patternLines.get(i).finishRound());
+            //points = new Points(patternLines.get(i).finishRound().getValue()+points.getValue());
         }
         //substract points from floor
-        int tempResult = points.getValue() + bin.finishRound().getValue();
-        points = new Points(tempResult>0?tempResult:0);
+        points.addPoints(bin.finishRound());
+        //int tempResult = points.getValue() + bin.finishRound().getValue();
+        //points = new Points(tempResult>0?tempResult:0);
         //if a row is full, end the game
         for (int i = 0; i < 5; i++) {
             if(wall.get(i).getTiles().size() == 5){
@@ -58,20 +44,21 @@ public class Board{
 
     public void endGame(){
         FinalPointsCalculation finalPointCalculation = new FinalPointsCalculation();
-        points = new Points(FinalPointsCalculation.getPoints(wall).getValue()+ points.getValue());
+        points.addPoints(FinalPointsCalculation.getPoints(wall));
+        //points = new Points(FinalPointsCalculation.getPoints(wall).getValue()+ points.getValue());
         new GameFinished();
     }
 
     public String state(){
-        String toReturn = "Pattern Lines: ";
+        String toReturn = "Pattern Lines:\n ";
         for (PatternLine row : patternLines ){
-            toReturn += row.state() + " ";
+            toReturn += row.state() + "\n";
         }
-        toReturn += "\nWall: ";
+        toReturn += "Wall:\n ";
         for (WallLine line : wall){
-            toReturn += line.state() + " ";
+            toReturn += line.state() + "\n";
         }
-        toReturn += "\nFloor: ";
+        toReturn += "Floor:\n";
         toReturn += bin.state();
         return toReturn;
     }
