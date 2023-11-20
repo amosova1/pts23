@@ -9,10 +9,12 @@ public class PatternLine {
     private int capacity;
     private List<Tile> tiles;
     private final Floor floor;
-    public PatternLine(int capacity, Floor floor){
+    private final WallLine adjacentWallLine;
+    public PatternLine(int capacity, Floor floor, WallLine wallLine){
         this.capacity = capacity;
         this.tiles = new ArrayList<>();
         this.floor = floor;
+        this.adjacentWallLine = wallLine;
     }
     public void put(final Collection<Tile> newTiles) {
         for(Tile newTile: newTiles){
@@ -27,15 +29,20 @@ public class PatternLine {
     }
 
     public Points finishRound(){
-
-        return null;
+        if(tiles.size() == capacity) {
+            if (adjacentWallLine.canPutTile(tiles.get(0))){
+                tiles = new ArrayList<>();
+                return adjacentWallLine.putTile(tiles.get(0));
+            }
+        }
+        tiles = new ArrayList<>();
+        return new Points(0);
     }
     public String state(){
         String toReturn = "";
         for (final Tile tile : tiles) {
             toReturn += tile.toString();
         }
-        toReturn += "\n";
         return toReturn;
     }
 

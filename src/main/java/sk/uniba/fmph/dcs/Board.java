@@ -18,17 +18,19 @@ public class Board{
 
     public void put(int destinationIdx, Tile[] tyles){
         if(destinationIdx < 0 || destinationIdx > patternLines.size())throw new InputMismatchException();
-        //insert selected tiles into the board
+        //insert selected tiles into the selected row of pattern
         patternLines.get(destinationIdx).put(List.of(tyles));
     }
     public FinishRoundResult finishRound(){
         //adds tiles to wall and adds points
         for (int i = 0; i < 5; i++) {
-            points = new Points(patternLines.get(i).finishRound().getValue()+points.getValue());
+            points.addPoints(patternLines.get(i).finishRound());
+            //points = new Points(patternLines.get(i).finishRound().getValue()+points.getValue());
         }
         //substract points from floor
-        int tempResult = points.getValue() + bin.finishRound().getValue();
-        points = new Points(tempResult>0?tempResult:0);
+        points.addPoints(bin.finishRound());
+        //int tempResult = points.getValue() + bin.finishRound().getValue();
+        //points = new Points(tempResult>0?tempResult:0);
         //if a row is full, end the game
         for (int i = 0; i < 5; i++) {
             if(wall.get(i).getTiles().size() == 5){
@@ -42,20 +44,21 @@ public class Board{
 
     public void endGame(){
         FinalPointsCalculation finalPointCalculation = new FinalPointsCalculation();
-        points = new Points(FinalPointsCalculation.getPoints(wall).getValue()+ points.getValue());
+        points.addPoints(FinalPointsCalculation.getPoints(wall));
+        //points = new Points(FinalPointsCalculation.getPoints(wall).getValue()+ points.getValue());
         new GameFinished();
     }
 
     public String state(){
-        String toReturn = "Pattern Lines: ";
+        String toReturn = "Pattern Lines:\n ";
         for (PatternLine row : patternLines ){
-            toReturn += row.state() + " ";
+            toReturn += row.state() + "\n";
         }
-        toReturn += "\nWall: ";
+        toReturn += "Wall:\n ";
         for (WallLine line : wall){
-            toReturn += line.state() + " ";
+            toReturn += line.state() + "\n";
         }
-        toReturn += "\nFloor: ";
+        toReturn += "Floor:\n";
         toReturn += bin.state();
         return toReturn;
     }
