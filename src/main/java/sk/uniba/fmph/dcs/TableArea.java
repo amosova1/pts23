@@ -4,16 +4,23 @@ import java.util.ArrayList;
 
 public class TableArea{
     private ArrayList<TyleSource> _tyleSources;
-    public TableArea(){
-        this._tyleSources = new ArrayList<>();
-        this._tyleSources.add(TableCenter.getInstance());
-        for (int i = 0; i < 4; i++){
-            this._tyleSources.add(new Factory());
-        }
+    public TableArea(ArrayList<TyleSource> tyleSources){
+        _tyleSources = tyleSources;
     }
 
-    public Tile[] take(int sourceId, int idx){
-        return _tyleSources.get(sourceId).take(idx);
+    public ArrayList<Tile> take(int sourceId, int idx){
+        ArrayList<Tile> fin = new ArrayList<>();
+        if(sourceId < 0 || sourceId >= _tyleSources.size()) {
+            return fin;
+        }
+        TyleSource tyleSource = _tyleSources.get(sourceId);
+        if(idx < 0 || idx >= _tyleSources.size()) {
+            return fin;
+        }
+        for (Tile t : tyleSource.take(idx)) {
+            fin.add(t);
+        }
+        return fin;
     }
 
     public boolean isRoundEnd(){
