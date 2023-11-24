@@ -1,14 +1,24 @@
 package sk.uniba.fmph.dcs;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-public class UsedTyles {
-    private ArrayList<Tile> _usedTyles;
-    public UsedTyles(){
+public class UsedTyles implements UsedTilesGiveInterface{
+    private List<Tile> _usedTyles;
+    private UsedTyles(){
         _usedTyles = new ArrayList<>();
     }
 
-    public void give(Tile[] tiles){
+    private static class UsedTylesHolder {
+        private static final UsedTyles INSTANCE = new UsedTyles();
+    }
+
+    public static UsedTyles getInstance() {
+        return UsedTyles.UsedTylesHolder.INSTANCE;
+    }
+
+    public void give(Collection<Tile> tiles){
         for(Tile tile: tiles){
             _usedTyles.add(tile);
         }
@@ -16,15 +26,16 @@ public class UsedTyles {
 
     public String state(){
         StringBuilder ans = new StringBuilder();
-        int n = _usedTyles.size();
-        for (Tile tile : _usedTyles) ans.append(tile.toString());
+        ans.append("UsedTyles:\n");
+        for (Tile ts: this._usedTyles) {
+            ans.append(ts.toString()).append("\n");
+        }
         return ans.toString();
     }
 
-    public Tile[] takeAll(){
-        Tile[] ans = new Tile[_usedTyles.size()];
-        _usedTyles.toArray(ans);
-        _usedTyles.clear();
+    public List<Tile> takeAll(){
+        List<Tile> ans = _usedTyles;
+        _usedTyles = new ArrayList<>();
         return ans;
     }
 }
