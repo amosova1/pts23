@@ -2,10 +2,9 @@ package sk.uniba.fmph.dcs;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class UsedTyles implements UsedTilesGiveInterface{
-    private List<Tile> _usedTyles;
+    private ArrayList<Tile> _usedTyles;
     private UsedTyles(){
         _usedTyles = new ArrayList<>();
     }
@@ -33,8 +32,8 @@ public class UsedTyles implements UsedTilesGiveInterface{
         return ans.toString();
     }
 
-    public List<Tile> takeAll(){
-        List<Tile> ans = _usedTyles;
+    public ArrayList<Tile> takeAll(){
+        ArrayList<Tile> ans = _usedTyles;
         _usedTyles = new ArrayList<>();
         return ans;
     }

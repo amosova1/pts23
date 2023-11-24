@@ -1,18 +1,18 @@
 package sk.uniba.fmph.dcs;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 public class TableArea{
-    private List<TyleSource> _tyleSources;
-    public TableArea(TableCenter tableCenter, List<Factory> factories){
+    private ArrayList<TyleSource> _tyleSources;
+    public TableArea(TableCenter tableCenter, ArrayList<Factory> factories){
         this._tyleSources = new ArrayList<>();
         this._tyleSources.add(tableCenter);
-        this._tyleSources.addAll(factories);
+        this._tyleSources.addAll((Collection<? extends TyleSource>) factories);
     }
 
-    public List<Tile> take(int sourceId, int idx){
-        List<Tile> fin = new ArrayList<>();
+    public ArrayList<Tile> take(int sourceId, int idx){
+        ArrayList<Tile> fin = new ArrayList<>();
         if(sourceId < 0 || sourceId >= _tyleSources.size()) {
             return fin;
         }
