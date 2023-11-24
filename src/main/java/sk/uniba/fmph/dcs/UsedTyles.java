@@ -1,15 +1,21 @@
 package sk.uniba.fmph.dcs;
 
 import java.util.ArrayList;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 public class UsedTyles implements UsedTilesGiveInterface{
-    private ArrayList<Tile> _usedTyles;
-    public UsedTyles(){
+    private List<Tile> _usedTyles;
+    private UsedTyles(){
         _usedTyles = new ArrayList<>();
+    }
+
+    private static class UsedTylesHolder {
+        private static final UsedTyles INSTANCE = new UsedTyles();
+    }
+
+    public static UsedTyles getInstance() {
+        return UsedTyles.UsedTylesHolder.INSTANCE;
     }
 
     public void give(Collection<Tile> tiles){
@@ -20,13 +26,15 @@ public class UsedTyles implements UsedTilesGiveInterface{
 
     public String state(){
         StringBuilder ans = new StringBuilder();
-        int n = _usedTyles.size();
-        for (Tile tile : _usedTyles) ans.append(tile.toString());
+        ans.append("UsedTyles:\n");
+        for (Tile ts: this._usedTyles) {
+            ans.append(ts.toString()).append("\n");
+        }
         return ans.toString();
     }
 
-    public ArrayList<Tile> takeAll(){
-        ArrayList<Tile> ans = _usedTyles;
+    public List<Tile> takeAll(){
+        List<Tile> ans = _usedTyles;
         _usedTyles = new ArrayList<>();
         return ans;
     }
