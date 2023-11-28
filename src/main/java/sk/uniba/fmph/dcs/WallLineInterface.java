@@ -8,6 +8,5 @@ public interface WallLineInterface {
     Points putTile(Tile tile);
     String state();
     List<Optional<Tile>> getTiles();
-    void setLineDown(WallLine lineDown);
-    void setLineUp(WallLine lineUp);
 }
+

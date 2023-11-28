@@ -75,4 +75,15 @@ public class Game implements GameInterface{
     public int getCurrentPlayer(){
         return this.currentPlayer;
     }
+
+    public String state(){
+        StringBuilder ans = new StringBuilder();
+        ans.append("Game:\n");
+        for (int i = 0; i < this.boards.size(); i++){
+            ans.append("Player ").append(i).append(":\n");
+            ans.append(this.boards.get(i).state()).append("\n");
+        }
+        ans.append(this.tableArea_instance.state());
+        return ans.toString();
+    }
 }

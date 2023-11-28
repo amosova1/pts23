@@ -20,6 +20,11 @@ class FakeUsedTiles implements UsedTilesGiveInterface {
   public void give(Collection<Tile> t) {
     tiles.addAll(t);
   }
+
+
+  public ArrayList<Tile> takeAll() {
+    return null;
+  }
 }
 
 public class FloorTest {

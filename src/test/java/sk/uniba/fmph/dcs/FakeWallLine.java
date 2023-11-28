@@ -1,21 +1,17 @@
 package sk.uniba.fmph.dcs;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Optional;
+import java.util.*;
 
-public class WallLine implements WallLineInterface{
+public class FakeWallLine implements WallLineInterface{
     private Tile[] tiles;
     private final ArrayList<Tile> tileTypes;
     private final Map<Tile, Integer> idxOf = new HashMap<>();
     private final Integer N;
-    private WallLine lineDown, lineUp;
+    private FakeWallLine lineDown, lineUp;
 
-    public WallLine(ArrayList<Tile> tileTypes, WallLine lineDown, WallLine lineUp) {
-        this.lineDown = lineDown;
-        this.lineUp = lineUp;
+    public FakeWallLine(ArrayList<Tile> tileTypes, FakeWallLine lineDown, FakeWallLine lineUp) {
+        this.lineDown = null;
+        this.lineUp = null;
         this.tileTypes = tileTypes;
         this.N = this.tileTypes.size();
         this.tiles = new Tile[this.N];
@@ -48,7 +44,7 @@ public class WallLine implements WallLineInterface{
         // taky tile nie je na stene
         if (!this.idxOf.containsKey(tile))
             return new Points(0);
-        
+
         // ak uz je v line tile toho typu, tak tiez nic
         int idx = this.idxOf.get(tile);
         if (this.tiles[idx] != null) {
@@ -64,33 +60,7 @@ public class WallLine implements WallLineInterface{
             rIdx++;
         int horizontalPoints = rIdx - lIdx + 1;
 
-        // vertical
-        WallLine curLine = this;
-        lIdx = rIdx = 100;
-        while (curLine.lineUp != null) {
-            List<Optional<Tile>> upTiles = curLine.lineUp.getTiles();
-            if (upTiles.size() <= idx || upTiles.get(idx).isEmpty())
-                break;
-            
-            rIdx++;
-            curLine = curLine.lineUp;
-        }
-
-        curLine = this;
-        while (curLine.lineDown != null) {
-            List<Optional<Tile>> downTiles = curLine.lineDown.getTiles();
-            if (downTiles.size() <= idx || downTiles.get(idx).isEmpty())
-                break;
-            
-            lIdx--;
-            curLine = curLine.lineDown;
-        }
-        int verticalPoints = rIdx - lIdx + 1;
-
-        int points;
-        if (horizontalPoints == 1 && verticalPoints == 1) points = 1;
-        else points = (horizontalPoints == 1 ? 0 : horizontalPoints) + (verticalPoints == 1 ? 0 : verticalPoints);
-        return new Points(points);
+        return new Points(horizontalPoints);
     }
 
     @Override
@@ -103,13 +73,12 @@ public class WallLine implements WallLineInterface{
     }
 
 
-    public void setLineDown(WallLineInterface lineDown) {
-        this.lineDown = (WallLine) lineDown;
+    public void setLineDown(FakeWallLine lineDown) {
+        this.lineDown = lineDown;
     }
 
 
-    public void setLineUp(WallLineInterface lineUp) {
-        this.lineUp = (WallLine) lineUp;
+    public void setLineUp(FakeWallLine lineUp) {
+        this.lineUp =  lineUp;
     }
 }
-
