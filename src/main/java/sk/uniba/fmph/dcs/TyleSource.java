@@ -1,7 +1,9 @@
 package sk.uniba.fmph.dcs;
 
+import java.util.ArrayList;
+
 public interface TyleSource {
-    Tile[] take(int idx);
+    ArrayList<Tile> take(int idx);
     boolean isEmpty();
     void startNewRound();
     String state();

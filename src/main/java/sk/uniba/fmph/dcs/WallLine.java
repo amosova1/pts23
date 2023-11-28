@@ -6,12 +6,12 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Optional;
 
-public class WallLine {
+public class WallLine implements WallLineInterface{
     private Tile[] tiles;
     private final ArrayList<Tile> tileTypes;
     private final Map<Tile, Integer> idxOf = new HashMap<>();
     private final Integer N;
-    private final WallLine lineDown, lineUp;
+    private WallLine lineDown, lineUp;
 
     public WallLine(ArrayList<Tile> tileTypes, WallLine lineDown, WallLine lineUp) {
         this.lineDown = lineDown;
@@ -24,15 +24,17 @@ public class WallLine {
         }
     }
 
-    Boolean canPutTile(Tile tile) {
+    @Override
+    public Boolean canPutTile(Tile tile) {
         // zly tip, asi nenastatne, ale radsej skontrolujme
         if (!this.idxOf.containsKey(tile))
             return false;
-        
+
         return this.tiles[this.idxOf.get(tile)] == null;
     }
 
-    List<Optional<Tile>> getTiles() {
+    @Override
+    public List<Optional<Tile>> getTiles() {
         ArrayList<Optional<Tile>> resultTiles = new ArrayList<>();
 
         for (int idx = 0; idx < this.N; idx++)
@@ -41,20 +43,21 @@ public class WallLine {
         return resultTiles;
     }
 
-    Points putTile(Tile tile) {
+    @Override
+    public Points putTile(Tile tile) {
         // taky tile nie je na stene
         if (!this.idxOf.containsKey(tile))
             return new Points(0);
         
         // ak uz je v line tile toho typu, tak tiez nic
-        Integer idx = this.idxOf.get(tile);
-        if (this.tiles[idx] != null)
+        int idx = this.idxOf.get(tile);
+        if (this.tiles[idx] != null) {
             return new Points(0);
-
+        }
         this.tiles[idx] = tile;
 
         // horizontal
-        Integer lIdx = idx, rIdx = idx;
+        int lIdx = idx, rIdx = idx;
         while (lIdx - 1 >= 0 && this.tiles[lIdx - 1] != null)
             lIdx--;
         while (rIdx + 1 < this.N && this.tiles[rIdx + 1] != null)
@@ -84,16 +87,29 @@ public class WallLine {
         }
         int verticalPoints = rIdx - lIdx + 1;
 
-        int points = horizontalPoints == 1 && verticalPoints == 1 ? 1 : horizontalPoints + verticalPoints;
-
+        int points;
+        if (horizontalPoints == 1 && verticalPoints == 1) points = 1;
+        else points = (horizontalPoints == 1 ? 0 : horizontalPoints) + (verticalPoints == 1 ? 0 : verticalPoints);
         return new Points(points);
     }
 
+    @Override
     public String state() {
         String toReturn = "";
         for (final Tile tile : this.tiles) {
             toReturn += tile == null ? "-" : tile.toString();
         }
         return toReturn;
-      }
+    }
+
+    @Override
+    public void setLineDown(WallLine lineDown) {
+        this.lineDown = lineDown;
+    }
+
+    @Override
+    public void setLineUp(WallLine lineUp) {
+        this.lineUp = lineUp;
+    }
 }
+

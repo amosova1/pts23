@@ -41,4 +41,13 @@ public class GameObserver implements ObserverInterface{
             o.notify(state);
         }
     }
+
+    @Override
+    public String getState(){
+        String s = "";
+        for (ObserverInterface o: this.observers) {
+            s += o.getState();
+        }
+        return s;
+    }
 }

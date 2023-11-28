@@ -3,7 +3,7 @@ package sk.uniba.fmph.dcs;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public final class Floor {
+public final class Floor implements FloorInterface{
   private final UsedTilesGiveInterface usedTiles;
   private final ArrayList<Points> pointPattern;
   private ArrayList<Tile> tiles;
@@ -14,10 +14,12 @@ public final class Floor {
     tiles = new ArrayList<Tile>();
   }
 
+  @Override
   public void put(final Collection<Tile> tiles) {
     this.tiles.addAll(tiles);
   }
 
+  @Override
   public String state() {
     String toReturn = "";
     for (final Tile tile : tiles) {
@@ -26,6 +28,7 @@ public final class Floor {
     return toReturn;
   }
 
+  @Override
   public Points finishRound() {
     int sum = 0;
     for (int i = 0; i < tiles.size(); i++) {
@@ -35,6 +38,7 @@ public final class Floor {
                   : pointPattern.get(pointPattern.size() - 1))
               .getValue();
     }
+    tiles.remove(Tile.STARTING_PLAYER);
     usedTiles.give(tiles);
     tiles = new ArrayList<Tile>();
     return new Points(sum);

@@ -17,6 +17,7 @@ public class UsedTyles implements UsedTilesGiveInterface{
         return UsedTyles.UsedTylesHolder.INSTANCE;
     }
 
+    @Override
     public void give(Collection<Tile> tiles){
         for(Tile tile: tiles){
             _usedTyles.add(tile);
@@ -32,6 +33,7 @@ public class UsedTyles implements UsedTilesGiveInterface{
         return ans.toString();
     }
 
+    @Override
     public ArrayList<Tile> takeAll(){
         ArrayList<Tile> ans = _usedTyles;
         _usedTyles = new ArrayList<>();
