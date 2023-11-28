@@ -1,13 +1,12 @@
 package sk.uniba.fmph.dcs;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class Bag implements BagInteface{
 
-    private ArrayList<Tile> _tiles;
-    private UsedTilesGiveInterface usedTyles_instance;
+    private final ArrayList<Tile> _tiles;
+    private final UsedTilesGiveInterface usedTyles_instance;
     public Bag(UsedTilesGiveInterface usedTyles){
         this.usedTyles_instance = usedTyles;
         _tiles = new ArrayList<>();
@@ -24,7 +23,7 @@ public class Bag implements BagInteface{
     @Override
     public ArrayList<Tile> take(int count) {
         if (this._tiles.isEmpty() || this._tiles.size() < count){
-            this.refill();
+            refill();
         }
 
         ArrayList<Tile> vyber = new ArrayList<>();
@@ -38,14 +37,12 @@ public class Bag implements BagInteface{
 
     @Override
     public String state(){
-        StringBuilder ans = new StringBuilder();
-        ans.append("Bag:\n");
-        ans.append("RED:").append(this._tiles.stream().filter(x -> x == Tile.RED).count()).append("\n");
-        ans.append("GREEN:").append(this._tiles.stream().filter(x -> x == Tile.GREEN).count()).append("\n");
-        ans.append("YELLOW:").append(this._tiles.stream().filter(x -> x == Tile.YELLOW).count()).append("\n");
-        ans.append("BLUE:").append(this._tiles.stream().filter(x -> x == Tile.BLUE).count()).append("\n");
-        ans.append("BLACK:").append(this._tiles.stream().filter(x -> x == Tile.BLACK).count()).append("\n");
-        return ans.toString();
+        return "Bag:\n" +
+                "RED:" + this._tiles.stream().filter(x -> x == Tile.RED).count() + "\n" +
+                "GREEN:" + this._tiles.stream().filter(x -> x == Tile.GREEN).count() + "\n" +
+                "YELLOW:" + this._tiles.stream().filter(x -> x == Tile.YELLOW).count() + "\n" +
+                "BLUE:" + this._tiles.stream().filter(x -> x == Tile.BLUE).count() + "\n" +
+                "BLACK:" + this._tiles.stream().filter(x -> x == Tile.BLACK).count() + "\n";
     }
 
     private void refill(){

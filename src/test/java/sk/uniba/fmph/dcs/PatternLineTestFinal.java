@@ -16,7 +16,7 @@ public class PatternLineTestFinal {
         tileTypes.add(Tile.YELLOW);
         tileTypes.add(Tile.BLUE);
         tileTypes.add(Tile.BLACK);
-        FakeUsedTyles usedTyles = FakeUsedTyles.getInstance();
+        FakeUsedTyles usedTyles = new FakeUsedTyles();
 
         ArrayList<Points> pointPattern = new ArrayList<>();
         pointPattern.add(new Points(-1));
@@ -27,8 +27,8 @@ public class PatternLineTestFinal {
         pointPattern.add(new Points(-3));
         pointPattern.add(new Points(-3));
 
-        WallLineInterface wallLine = (WallLineInterface) new FakeWallLine(tileTypes, null, null);
-        FloorInterface floor = new FakeFloor(usedTyles, pointPattern);
+        WallLineInterface wallLine = new FakeWallLine();
+        FloorInterface floor = new Floor(usedTyles, pointPattern);
         PatternLine patternLine = new PatternLine(3, wallLine, floor);
 
         ArrayList<Tile> tiles = new ArrayList<>(List.of(Tile.RED, Tile.RED));
@@ -45,7 +45,7 @@ public class PatternLineTestFinal {
         tileTypes.add(Tile.YELLOW);
         tileTypes.add(Tile.BLUE);
         tileTypes.add(Tile.BLACK);
-        FakeUsedTyles usedTyles = FakeUsedTyles.getInstance();
+        FakeUsedTyles usedTyles = new FakeUsedTyles();
 
         ArrayList<Points> pointPattern = new ArrayList<>();
         pointPattern.add(new Points(-1));
@@ -56,9 +56,9 @@ public class PatternLineTestFinal {
         pointPattern.add(new Points(-3));
         pointPattern.add(new Points(-3));
 
-        WallLineInterface wallLine = (WallLineInterface) new FakeWallLine(tileTypes, null, null);
+        WallLineInterface wallLine = new FakeWallLine();
 
-        FloorInterface floor = new FakeFloor(usedTyles, pointPattern);
+        FloorInterface floor = new Floor(usedTyles, pointPattern);
         PatternLine patternLine = new PatternLine(3, wallLine, floor);
 
         ArrayList<Tile> tiles = new ArrayList<>(List.of(Tile.RED, Tile.RED, Tile.RED, Tile.RED));
@@ -76,7 +76,7 @@ public class PatternLineTestFinal {
         tileTypes.add(Tile.YELLOW);
         tileTypes.add(Tile.BLUE);
         tileTypes.add(Tile.BLACK);
-        FakeUsedTyles usedTyles = FakeUsedTyles.getInstance();
+        FakeUsedTyles usedTyles = new FakeUsedTyles();
 
         ArrayList<Points> pointPattern = new ArrayList<>();
         pointPattern.add(new Points(-1));
@@ -87,8 +87,8 @@ public class PatternLineTestFinal {
         pointPattern.add(new Points(-3));
         pointPattern.add(new Points(-3));
 
-        WallLineInterface wallLine = (WallLineInterface) new FakeWallLine(tileTypes, null, null);
-        FloorInterface floor = new FakeFloor(usedTyles, pointPattern);
+        WallLineInterface wallLine = new FakeWallLine();
+        FloorInterface floor = new Floor(usedTyles, pointPattern);
         PatternLine patternLine = new PatternLine(3, wallLine, floor);
 
         ArrayList<Tile> tiles = new ArrayList<>(List.of(Tile.RED, Tile.RED));
@@ -108,7 +108,7 @@ public class PatternLineTestFinal {
         tileTypes.add(Tile.YELLOW);
         tileTypes.add(Tile.BLUE);
         tileTypes.add(Tile.BLACK);
-        FakeUsedTyles usedTyles = FakeUsedTyles.getInstance();
+        FakeUsedTyles usedTyles = new FakeUsedTyles();
 
         ArrayList<Points> pointPattern = new ArrayList<>();
         pointPattern.add(new Points(-1));
@@ -119,14 +119,14 @@ public class PatternLineTestFinal {
         pointPattern.add(new Points(-3));
         pointPattern.add(new Points(-3));
 
-        WallLineInterface wallLine = new FakeWallLine(tileTypes, null, null);
-        FloorInterface floor = new FakeFloor(usedTyles, pointPattern);
+        WallLineInterface wallLine = new FakeWallLine();
+        FloorInterface floor = new Floor(usedTyles, pointPattern);
         PatternLine patternLine = new PatternLine(3, wallLine, floor);
 
         ArrayList<Tile> tiles = new ArrayList<>(List.of(Tile.RED, Tile.RED, Tile.RED));
         patternLine.put(tiles);
 
-        assertEquals(1, patternLine.finishRound().getValue());
+        assertEquals(new Points(100), patternLine.finishRound());
     }
 
     @Test
@@ -137,7 +137,7 @@ public class PatternLineTestFinal {
         tileTypes.add(Tile.YELLOW);
         tileTypes.add(Tile.BLUE);
         tileTypes.add(Tile.BLACK);
-        FakeUsedTyles usedTyles = FakeUsedTyles.getInstance();
+        FakeUsedTyles usedTyles = new FakeUsedTyles();
 
         ArrayList<Points> pointPattern = new ArrayList<>();
         pointPattern.add(new Points(-1));
@@ -148,8 +148,8 @@ public class PatternLineTestFinal {
         pointPattern.add(new Points(-3));
         pointPattern.add(new Points(-3));
 
-        WallLineInterface wallLine = (WallLineInterface) new FakeWallLine(tileTypes, null, null);
-        FloorInterface floor = new FakeFloor(usedTyles, pointPattern);
+        WallLineInterface wallLine = new FakeWallLine();
+        FloorInterface floor = new Floor(usedTyles, pointPattern);
         PatternLine patternLine = new PatternLine(3, wallLine, floor);
 
         assertEquals("PatternLine:\n" +
@@ -164,7 +164,7 @@ public class PatternLineTestFinal {
         tileTypes.add(Tile.YELLOW);
         tileTypes.add(Tile.BLUE);
         tileTypes.add(Tile.BLACK);
-        FakeUsedTyles usedTyles = FakeUsedTyles.getInstance();
+        FakeUsedTyles usedTyles = new FakeUsedTyles();
 
         ArrayList<Points> pointPattern = new ArrayList<>();
         pointPattern.add(new Points(-1));
@@ -175,8 +175,8 @@ public class PatternLineTestFinal {
         pointPattern.add(new Points(-3));
         pointPattern.add(new Points(-3));
 
-        WallLineInterface wallLine = (WallLineInterface) new FakeWallLine(tileTypes, null, null);
-        FloorInterface floor = new FakeFloor(usedTyles, pointPattern);
+        WallLineInterface wallLine = new FakeWallLine();
+        FloorInterface floor = new Floor(usedTyles, pointPattern);
         PatternLine patternLine = new PatternLine(3, wallLine, floor);
 
         ArrayList<Tile> tiles = new ArrayList<>(List.of(Tile.RED, Tile.RED, Tile.RED));

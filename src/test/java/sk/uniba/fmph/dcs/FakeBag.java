@@ -14,30 +14,25 @@ public class FakeBag implements BagInteface{
         _tiles.addAll(List.of(Tile.GREEN, Tile.RED, Tile.RED, Tile.BLUE));
     }
 
+    @Override
     public ArrayList<Tile> take(int count) {
         if (this._tiles.isEmpty() || this._tiles.size() < count){
-            //System.out.println("Bag is empty, refilling");
             refill();
-            //System.out.println(this._tiles.size());
         }
 
         ArrayList<Tile> vyber = new ArrayList<>();
         for (int i = 0; i < count; i++){
             vyber.add(this._tiles.get(i));
         }
-        for (int i = 0; i < count; i++){
-            this._tiles.remove(0);
+        if (count > 0) {
+            this._tiles.subList(0, count).clear();
         }
         return vyber;
     }
 
+    @Override
     public String state(){
-        StringBuilder ans = new StringBuilder();
-        ans.append("Bag:\n");
-        for (Tile ts: this._tiles) {
-            ans.append(ts.toString()).append("\n");
-        }
-        return ans.toString();
+        return "";
     }
 
     private void refill(){

@@ -18,7 +18,6 @@ public class FakeFactory implements TyleSource, FactoryInterface{
         if (idx < 0 || idx >= 4 || _tyles.isEmpty()){
             return vyber;
         }
-        //vyber.add(this._tyles.get(idx));
         for (int i = 0; i < _tyles.size(); i++){
             if (this._tyles.get(idx).equals(this._tyles.get(i))){
                 vyber.add(this._tyles.get(i));
@@ -28,9 +27,9 @@ public class FakeFactory implements TyleSource, FactoryInterface{
         for (int i = 0; i < vyber.size(); i++){
             this._tyles.remove(vyber.get(i));
         }
-        Tile[] vyber2 = new Tile[this._tyles.size()];
+        ArrayList<Tile> vyber2 = new ArrayList<>();
         for (int i = 0; i < this._tyles.size(); i++){
-            vyber2[i] = this._tyles.get(i);
+            vyber2.add(this._tyles.get(i));
         }
         this._tyles.clear();
         this.tableCenter_instance.add(vyber2);
@@ -50,11 +49,6 @@ public class FakeFactory implements TyleSource, FactoryInterface{
 
     @Override
     public String state() {
-        StringBuilder ans = new StringBuilder();
-        ans.append("Factory:\n");
-        for (Tile tile : _tyles) {
-            ans.append(tile.toString()).append("\n");
-        }
-        return ans.toString();
+        return "";
     }
 }

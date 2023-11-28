@@ -6,4 +6,5 @@ public interface TableCenterInterface {
     ArrayList<Tile> take(int idx);
     void startNewRound();
     String state();
+    void add(ArrayList<Tile> tiles);
 }

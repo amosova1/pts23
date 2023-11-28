@@ -11,17 +11,6 @@ public class FakeTableCenter implements TableCenterInterface, TyleSource{
 
     @Override
     public ArrayList<Tile> take(int idx) {
-        /*Tile taken = _tyles.get(idx);
-        ArrayList<Tile> ans = new ArrayList<>();
-        for(Tile tile: _tyles){
-            if (tile.equals(taken)) ans.add(tile);
-        }
-        _tyles.removeAll(Collections.singleton(taken));
-        if(_tyles.contains(Tile.STARTING_PLAYER)){
-            ans.add(Tile.STARTING_PLAYER);
-            _tyles.remove(Tile.STARTING_PLAYER);
-        }
-        return ans;*/
         ArrayList<Tile> vyber = new ArrayList<>();
 
         if (this._tyles.size() == 1 && this._tyles.get(0).equals(Tile.STARTING_PLAYER)){
@@ -31,7 +20,6 @@ public class FakeTableCenter implements TableCenterInterface, TyleSource{
             return vyber;
         }
 
-        //vyber.add(this._tyles.get(idx));
         for (int i = 0; i < _tyles.size(); i++){
             if (this._tyles.get(idx).equals(this._tyles.get(i))){
                 vyber.add(this._tyles.get(i));
@@ -69,7 +57,7 @@ public class FakeTableCenter implements TableCenterInterface, TyleSource{
         return ans.toString();
     }
 
-    public void add(Tile[] tyles){
-        Collections.addAll(_tyles, tyles);
+    public void add(ArrayList<Tile> tyles){
+        this._tyles.addAll(tyles);
     }
 }

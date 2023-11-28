@@ -72,7 +72,7 @@ public class TableCenter implements TyleSource, TableCenterInterface{
         return ans.toString();
     }
 
-    public void add(Tile[] tyles){
-        Collections.addAll(_tyles, tyles);
+    public void add(ArrayList<Tile> tyles){
+        this._tyles.addAll(tyles);
     }
 }

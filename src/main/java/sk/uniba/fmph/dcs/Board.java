@@ -3,7 +3,7 @@ package sk.uniba.fmph.dcs;
 import java.util.*;
 
 public class Board implements BoardInterface{
-    private Points points;
+    private final Points points;
     private final ArrayList<PatternLine> patternLines;
     private final Floor bin;
     private final ArrayList<WallLine> wall;

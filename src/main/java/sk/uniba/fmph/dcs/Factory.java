@@ -5,9 +5,9 @@ import java.util.ArrayList;
 public class Factory implements TyleSource, FactoryInterface{
     private ArrayList<Tile> _tyles;
     private BagInteface bag_instance;
-    private TableCenter tableCenter_instance;
-    public Factory(BagInteface bag_instance){
-        this.tableCenter_instance = TableCenter.getInstance();
+    private TableCenterInterface tableCenter_instance;
+    public Factory(BagInteface bag_instance, TableCenterInterface tableCenter_instance){
+        this.tableCenter_instance = tableCenter_instance;
         this.bag_instance = bag_instance;
         _tyles = new ArrayList<>();
     }
@@ -18,19 +18,16 @@ public class Factory implements TyleSource, FactoryInterface{
         if (idx < 0 || idx >= 4 || _tyles.isEmpty()){
             return vyber;
         }
-        for (int i = 0; i < _tyles.size(); i++){
-            if (this._tyles.get(idx).equals(this._tyles.get(i))){
-                vyber.add(this._tyles.get(i));
+        for (Tile tyle : _tyles) {
+            if (this._tyles.get(idx).equals(tyle)) {
+                vyber.add(tyle);
             }
         }
 
-        for (int i = 0; i < vyber.size(); i++){
-            this._tyles.remove(vyber.get(i));
+        for (Tile tile : vyber) {
+            this._tyles.remove(tile);
         }
-        Tile[] vyber2 = new Tile[this._tyles.size()];
-        for (int i = 0; i < this._tyles.size(); i++){
-            vyber2[i] = this._tyles.get(i);
-        }
+        ArrayList<Tile> vyber2 = new ArrayList<>(this._tyles);
         this._tyles.clear();
         this.tableCenter_instance.add(vyber2);
 

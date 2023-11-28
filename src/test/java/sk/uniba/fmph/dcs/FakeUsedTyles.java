@@ -9,14 +9,6 @@ public class FakeUsedTyles implements UsedTilesGiveInterface{
         _usedTyles = new ArrayList<>();
     }
 
-    private static class FakeUsedTylesHolder {
-        private static final FakeUsedTyles INSTANCE = new FakeUsedTyles();
-    }
-
-    public static FakeUsedTyles getInstance() {
-        return FakeUsedTyles.FakeUsedTylesHolder.INSTANCE;
-    }
-
     @Override
     public void give(Collection<Tile> tiles){
         for(Tile tile: tiles){
@@ -25,12 +17,7 @@ public class FakeUsedTyles implements UsedTilesGiveInterface{
     }
 
     public String state(){
-        StringBuilder ans = new StringBuilder();
-        ans.append("UsedTyles:\n");
-        for (Tile ts: this._usedTyles) {
-            ans.append(ts.toString()).append("\n");
-        }
-        return ans.toString();
+        return "";
     }
 
     @Override
