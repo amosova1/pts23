@@ -1,7 +1,5 @@
 package sk.uniba.fmph.dcs;
 
-import java.util.ArrayList;
-
 public class FakeObserver implements ObserverInterface{
 
     @Override

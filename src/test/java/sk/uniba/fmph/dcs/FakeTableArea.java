@@ -3,7 +3,7 @@ package sk.uniba.fmph.dcs;
 import java.util.ArrayList;
 
 public class FakeTableArea implements TableAreaInterface{
-    private ArrayList<TyleSource> _tyleSources;
+    private final ArrayList<TyleSource> _tyleSources;
     public FakeTableArea(TyleSource tableCenter, ArrayList<TyleSource> factories){
         this._tyleSources = new ArrayList<>();
         this._tyleSources.add(tableCenter);
@@ -24,9 +24,7 @@ public class FakeTableArea implements TableAreaInterface{
         if(idx < 0 || idx > 4) {
             return fin;
         }
-        for (Tile t : tyleSource.take(idx)) {
-            fin.add(t);
-        }
+        fin.addAll(tyleSource.take(idx));
         return fin;
     }
 

@@ -11,9 +11,7 @@ public class FakeUsedTyles implements UsedTilesGiveInterface{
 
     @Override
     public void give(Collection<Tile> tiles){
-        for(Tile tile: tiles){
-            _usedTyles.add(tile);
-        }
+        _usedTyles.addAll(tiles);
     }
 
     public String state(){

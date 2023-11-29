@@ -2,11 +2,10 @@ package sk.uniba.fmph.dcs;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class FakeBag implements BagInteface{
-    private ArrayList<Tile> _tiles;
-    private UsedTilesGiveInterface usedTyles_instance;
+    private final ArrayList<Tile> _tiles;
+    private final UsedTilesGiveInterface usedTyles_instance;
     public FakeBag(UsedTilesGiveInterface usedTyles){
         this.usedTyles_instance = usedTyles;
         this._tiles = new ArrayList<>();

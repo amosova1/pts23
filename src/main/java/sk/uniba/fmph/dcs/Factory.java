@@ -9,7 +9,7 @@ public class Factory implements TyleSource, FactoryInterface{
     public Factory(BagInteface bag_instance, TableCenterInterface tableCenter_instance){
         this.tableCenter_instance = tableCenter_instance;
         this.bag_instance = bag_instance;
-        _tyles = new ArrayList<>();
+        this._tyles = new ArrayList<>();
     }
 
     @Override

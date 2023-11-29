@@ -20,14 +20,14 @@ public class FakeTableCenter implements TableCenterInterface, TyleSource{
             return vyber;
         }
 
-        for (int i = 0; i < _tyles.size(); i++){
-            if (this._tyles.get(idx).equals(this._tyles.get(i))){
-                vyber.add(this._tyles.get(i));
+        for (Tile tyle : _tyles) {
+            if (this._tyles.get(idx).equals(tyle)) {
+                vyber.add(tyle);
             }
         }
 
-        for (int i = 0; i < vyber.size(); i++){
-            this._tyles.remove(vyber.get(i));
+        for (Tile tile : vyber) {
+            this._tyles.remove(tile);
         }
 
         if (this._tyles.contains(Tile.STARTING_PLAYER)){
