@@ -47,7 +47,6 @@ public class PatternLine implements PatternLineInterface{
         if (this._tyles.isEmpty()){
             return points;
         }
-        System.out.print(this._tyles.get(0) + " ");
         if (this._tyles.size() == this.capacity){
             if (this.wallLine_instance.canPutTile(this._tyles.get(0))){
                 points = this.wallLine_instance.putTile(this._tyles.get(0));
@@ -59,7 +58,6 @@ public class PatternLine implements PatternLineInterface{
                 this._tyles.clear();
             }
         }
-        System.out.println(points);
         return points;
     }
 

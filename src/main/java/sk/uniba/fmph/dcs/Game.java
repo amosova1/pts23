@@ -54,7 +54,7 @@ public class Game implements GameInterface{
 
         boolean check = true;
         if (this.tableArea_instance.isRoundEnd()){
-            System.out.println("Koniec kola");
+            //System.out.println("Koniec kola");
 
             for (BoardInterface board : this.boards) {
                 FinishRoundResult r = board.finishRound();

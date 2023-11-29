@@ -5,7 +5,7 @@ import java.util.Collection;
 
 public class TableArea implements TableAreaInterface{
     private ArrayList<TyleSource> _tyleSources;
-    public TableArea(TyleSource tableCenter, ArrayList<TyleSource> factories){
+    public TableArea(TableCenter tableCenter, ArrayList<Factory> factories){
         this._tyleSources = new ArrayList<>();
         this._tyleSources.add(tableCenter);
         this._tyleSources.addAll(factories);
