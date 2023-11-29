@@ -20,19 +20,21 @@ public class GameObserver implements ObserverInterface{
         return GameObserverHolder.INSTANCE;
     }
 
-    @Override
     public void registerObserver(ObserverInterface observer) {
         this.observers.add(observer);
     }
 
-    @Override
     public void cancelObserver(ObserverInterface observer) {
         this.observers.remove(observer);
     }
 
     @Override
     public void notify(String newState) {
-        this.state = newState;
+        //this.state = newState;
+        for (ObserverInterface o:
+                observers) {
+            o.notify(newState);
+        }
     }
 
     public void notifyEverybody(String state){
@@ -40,14 +42,5 @@ public class GameObserver implements ObserverInterface{
              observers) {
             o.notify(state);
         }
-    }
-
-    @Override
-    public String getState(){
-        String s = "";
-        for (ObserverInterface o: this.observers) {
-            s += o.getState();
-        }
-        return s;
     }
 }

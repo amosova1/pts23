@@ -63,40 +63,11 @@ public class GameIntegrationTest {
         }
     }
 
-    static Board addPlayer(UsedTyles usedTyles_instance, ArrayList<Points> pointPattern){
-        ArrayList<Tile> tileTypes = new ArrayList<>();
-        tileTypes.add(Tile.RED);
-        tileTypes.add(Tile.GREEN);
-        tileTypes.add(Tile.YELLOW);
-        tileTypes.add(Tile.BLUE);
-        tileTypes.add(Tile.BLACK);
-        ArrayList<WallLine> wallLines = new ArrayList<>();
-        for (int i = 0; i < 5; i++){
-            wallLines.add(new WallLine(tileTypes, null, null));
-        }
-
-        wallLines.get(0).setLineDown(wallLines.get(1));
-        wallLines.get(1).setLineUp(wallLines.get(0));
-        wallLines.get(1).setLineDown(wallLines.get(2));
-        wallLines.get(2).setLineUp(wallLines.get(1));
-        wallLines.get(2).setLineDown(wallLines.get(3));
-        wallLines.get(3).setLineUp(wallLines.get(2));
-        wallLines.get(3).setLineDown(wallLines.get(4));
-        wallLines.get(4).setLineUp(wallLines.get(3));
-
-        Floor floor_instance = new Floor(usedTyles_instance, pointPattern);
-
-        ArrayList<PatternLine> patternLines = new ArrayList<>();
-        for (int i = 0; i < 5; i++){
-            patternLines.add(new PatternLine(i+1, wallLines.get(i), floor_instance));
-        }
-        Board board = new Board(patternLines, wallLines, floor_instance, new Points(0));
-        return board;
-    }
-
     @Test
     public void testGame() {
         GameObserver go = GameObserver.getInstance();
+        MyObserver myObserver = new MyObserver();
+        go.registerObserver(myObserver);
         TableCenter tableCenter_instance = TableCenter.getInstance();
         UsedTyles usedTyles_instance = UsedTyles.getInstance();
         FakeBag2 bag_instance = FakeBag2.getInstance();

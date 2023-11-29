@@ -19,6 +19,7 @@ public class Game implements GameInterface{
         this.currentPlayer = 0;
         this.exitCode = 0;
 
+        this.gameObserver.notify("Inicializovana hra");
     }
 
     public Integer getExitCode(){
@@ -28,11 +29,13 @@ public class Game implements GameInterface{
     @Override
     public Boolean take(Integer playerId, Integer sourceId, Integer idx, Integer destinationIdx) {
         if (playerId < 0 || playerId >= boards.size()){
+            this.gameObserver.notify("Neexistujuci hrac");
             this.exitCode = 2;
             return false;
         }
 
         if (!Objects.equals(this.currentPlayer, playerId)){
+            this.gameObserver.notify("Nie si na tahu");
             this.exitCode = 1;
             return false;
         }
@@ -44,6 +47,7 @@ public class Game implements GameInterface{
         }
 
         if (vybrane.isEmpty()){
+            this.gameObserver.notify("Vybral z prazdneho miesta");
             this.exitCode = 3;
             return false;
         }
@@ -54,9 +58,11 @@ public class Game implements GameInterface{
 
         boolean check = true;
         if (this.tableArea_instance.isRoundEnd()){
-            //System.out.println("Koniec kola");
+            this.gameObserver.notify("Koniec kola");
 
             for (BoardInterface board : this.boards) {
+                this.gameObserver.notify("Hrac" + this.boards.indexOf(board) + ": ");
+                this.gameObserver.notify(board.state());
                 FinishRoundResult r = board.finishRound();
 
                 if (r == FinishRoundResult.GAME_FINISHED) {
@@ -69,21 +75,17 @@ public class Game implements GameInterface{
             this.currentPlayer = this.startingPlayer;
         }
 
+        if (!check){
+            this.gameObserver.notify("Koniec hry");
+            for (BoardInterface board : this.boards) {
+                this.gameObserver.notify(board.state());
+            }
+        }
+
         return check;
     }
 
     public int getCurrentPlayer(){
         return this.currentPlayer;
-    }
-
-    public String state(){
-        StringBuilder ans = new StringBuilder();
-        ans.append("Game:\n");
-        for (int i = 0; i < this.boards.size(); i++){
-            ans.append("Player ").append(i).append(":\n");
-            ans.append(this.boards.get(i).state()).append("\n");
-        }
-        ans.append(this.tableArea_instance.state());
-        return ans.toString();
     }
 }
