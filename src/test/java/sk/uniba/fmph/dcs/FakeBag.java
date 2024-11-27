@@ -2,6 +2,7 @@ package sk.uniba.fmph.dcs;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class FakeBag implements BagInteface{
     private final ArrayList<Tile> _tiles;
@@ -14,19 +15,24 @@ public class FakeBag implements BagInteface{
     }
 
     @Override
-    public ArrayList<Tile> take(int count) {
-        if (this._tiles.isEmpty() || this._tiles.size() < count){
-            refill();
+    public Pair take(int count) {
+        ArrayList<Tile> remainingTiles = new ArrayList<>(this._tiles);
+        ArrayList<Tile> selectedTiles = new ArrayList<>();
+        UsedTilesGiveInterface newUsedTiles = usedTyles_instance;
+
+        if (remainingTiles.isEmpty() || remainingTiles.size() < count){
+            ArrayList<Tile> tiles = newUsedTiles.takeAll();
+            tiles.remove(Tile.STARTING_PLAYER);
+
+            remainingTiles.addAll(tiles);
+//            refill();
         }
 
-        ArrayList<Tile> vyber = new ArrayList<>();
         for (int i = 0; i < count; i++){
-            vyber.add(this._tiles.get(i));
+            selectedTiles.add(remainingTiles.get(0));
+            remainingTiles.remove(0);
         }
-        if (count > 0) {
-            this._tiles.subList(0, count).clear();
-        }
-        return vyber;
+        return new Pair(new Bag(newUsedTiles, remainingTiles), selectedTiles);
     }
 
     @Override
@@ -34,10 +40,14 @@ public class FakeBag implements BagInteface{
         return "";
     }
 
-    private void refill(){
-        ArrayList<Tile> tiles = usedTyles_instance.takeAll();
-        tiles.remove(Tile.STARTING_PLAYER);
-
-        this._tiles.addAll(tiles);
-    }
+//    private Pair refill(){
+//        ArrayList<Tile> tiles = new ArrayList<>(_tiles);
+//        ArrayList<Tile> tiles2 = usedTyles_instance.takeAll();
+//        usedTyles_instance.give(tiles2);
+//
+//        tiles.addAll(tiles2);
+//        tiles.remove(Tile.STARTING_PLAYER);
+//
+//        return new Pair(new Bag(this.usedTyles_instance, tiles), new ArrayList<>());
+//    }
 }

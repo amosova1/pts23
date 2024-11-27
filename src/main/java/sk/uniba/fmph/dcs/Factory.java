@@ -2,7 +2,7 @@ package sk.uniba.fmph.dcs;
 
 import java.util.ArrayList;
 
-public class Factory implements TyleSource, FactoryInterface{
+public class Factory implements FactoryInterface{
     private ArrayList<Tile> _tyles;
     private BagInteface bag_instance;
     private TableCenterInterface tableCenter_instance;
@@ -13,25 +13,28 @@ public class Factory implements TyleSource, FactoryInterface{
     }
 
     @Override
-    public ArrayList<Tile> take(int idx) {
-        ArrayList<Tile> vyber = new ArrayList<>();
-        if (idx < 0 || idx >= 4 || _tyles.isEmpty()){
-            return vyber;
+    public Pair take(int idx) {
+        ArrayList<Tile> selectedTiles = new ArrayList<>();
+        ArrayList<Tile> remainingTiles = new ArrayList<>(this._tyles);
+        TableCenterInterface newTableCenter_interface = tableCenter_instance;
+
+        if (idx < 0 || idx >= 4 || remainingTiles.isEmpty()){
+            return new Pair(new Factory(bag_instance, newTableCenter_interface), selectedTiles);
         }
-        for (Tile tyle : _tyles) {
-            if (this._tyles.get(idx).equals(tyle)) {
-                vyber.add(tyle);
+        for (Tile tyle : remainingTiles) {
+            if (remainingTiles.get(idx).equals(tyle)) {
+                selectedTiles.add(tyle);
             }
         }
 
-        for (Tile tile : vyber) {
-            this._tyles.remove(tile);
+        for (Tile tile : selectedTiles) {
+            remainingTiles.remove(tile);
         }
-        ArrayList<Tile> vyber2 = new ArrayList<>(this._tyles);
-        this._tyles.clear();
-        this.tableCenter_instance.add(vyber2);
+        ArrayList<Tile> vyber2 = new ArrayList<>(remainingTiles);
+        remainingTiles.clear();
+        newTableCenter_interface.add(vyber2);
 
-        return vyber;
+        return new Pair( new Factory(bag_instance, newTableCenter_interface), selectedTiles);
     }
 
     @Override
@@ -41,7 +44,10 @@ public class Factory implements TyleSource, FactoryInterface{
 
     @Override
     public void startNewRound() {
-        this._tyles = bag_instance.take(4);
+        Pair nove = bag_instance.take(4);
+        bag_instance = nove.getNewBag();
+
+        this._tyles = nove.getSelectedTiles();
     }
 
     @Override

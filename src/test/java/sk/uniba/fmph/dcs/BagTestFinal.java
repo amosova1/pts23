@@ -1,16 +1,29 @@
 package sk.uniba.fmph.dcs;
 
 import java.util.ArrayList;
+
 import org.junit.Test;
+
 import static org.junit.Assert.*;
+import static sk.uniba.fmph.dcs.Tile.*;
 
 public class BagTestFinal {
 
     @Test
     public void state_isEmpty() {
         FakeUsedTyles usedTyles = new FakeUsedTyles();
-        Bag bag = new Bag(usedTyles);
-        bag.take(100);
+        ArrayList<Tile> tiles = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            tiles.add(RED);
+            tiles.add(GREEN);
+            tiles.add(YELLOW);
+            tiles.add(BLUE);
+            tiles.add(BLACK);
+        }
+
+        Bag bag = new Bag(usedTyles, tiles);
+        Pair nove = bag.take(100);
+        bag = (Bag)nove.getNewBag();
 
         String expected = "Bag:\n" +
                 "RED:0\n" +
@@ -22,13 +35,27 @@ public class BagTestFinal {
     }
 
     @Test
-    public void state_isNotEmpty(){
+    public void state_isNotEmpty() {
         FakeUsedTyles usedTyles = new FakeUsedTyles();
-        Bag bag = new Bag(usedTyles);
+        ArrayList<Tile> tiles = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            tiles.add(RED);
+            tiles.add(GREEN);
+            tiles.add(YELLOW);
+            tiles.add(BLUE);
+            tiles.add(BLACK);
+        }
 
-        ArrayList<Tile> tiles = bag.take(1);
+        Bag bag = new Bag(usedTyles, tiles);
+        Pair nove = bag.take(1);
+        bag = (Bag) nove.getNewBag();
+        System.out.println(bag.state());
+
+        Tile takenTile = nove.getSelectedTiles().get(0);
+        System.out.println(takenTile);
+
         usedTyles.give(tiles);
-        String expected = switch (tiles.get(0)) {
+        String expected = switch (takenTile) {
             case RED -> "Bag:\n" +
                     "RED:19\n" +
                     "GREEN:20\n" +
@@ -68,10 +95,22 @@ public class BagTestFinal {
     @Test
     public void take_validCount() {
         FakeUsedTyles usedTyles = new FakeUsedTyles();
-        Bag bag = new Bag(usedTyles);
+        ArrayList<Tile> tiles = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            tiles.add(RED);
+            tiles.add(GREEN);
+            tiles.add(YELLOW);
+            tiles.add(BLUE);
+            tiles.add(BLACK);
+        }
+
+        Bag bag = new Bag(usedTyles, tiles);
 
         int count = 3;
-        ArrayList<Tile> tiles = bag.take(count);
+        Pair nove = bag.take(count);
+        bag = (Bag) nove.getNewBag();
+
+        tiles = nove.getSelectedTiles();
 
         assertEquals(count, tiles.size());
     }
@@ -79,13 +118,27 @@ public class BagTestFinal {
     @Test
     public void take_invalidCount_refilling() {
         FakeUsedTyles usedTyles = new FakeUsedTyles();
-        Bag bag = new Bag(usedTyles);
+        ArrayList<Tile> tiles = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            tiles.add(RED);
+            tiles.add(GREEN);
+            tiles.add(YELLOW);
+            tiles.add(BLUE);
+            tiles.add(BLACK);
+        }
 
-        ArrayList<Tile> zobrane = bag.take(99); // celkovo 100
+        Bag bag = new Bag(usedTyles, tiles);
+        Pair nove = bag.take(99);
+        bag = (Bag) nove.getNewBag();
+
+        ArrayList<Tile> zobrane = nove.getSelectedTiles();
         usedTyles.give(zobrane);
 
         int count = 3;
-        ArrayList<Tile> tiles = bag.take(count);
+        nove = bag.take(count);
+        bag = (Bag) nove.getNewBag();
+
+        tiles = nove.getSelectedTiles();
 
         assertEquals(count, tiles.size());
     }
@@ -93,9 +146,20 @@ public class BagTestFinal {
     @Test
     public void refill_NotContainsStartingPlayer() {
         FakeUsedTyles usedTyles = new FakeUsedTyles();
-        Bag bag = new Bag(usedTyles);
+        ArrayList<Tile> tiles = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            tiles.add(RED);
+            tiles.add(GREEN);
+            tiles.add(YELLOW);
+            tiles.add(BLUE);
+            tiles.add(BLACK);
+        }
 
-        ArrayList<Tile> get = bag.take(100);
+        Bag bag = new Bag(usedTyles, tiles);
+        Pair nove = bag.take(100);
+        bag = (Bag) nove.getNewBag();
+
+        ArrayList<Tile> get = nove.getSelectedTiles();
 
         assertFalse(get.contains(Tile.STARTING_PLAYER));
     }

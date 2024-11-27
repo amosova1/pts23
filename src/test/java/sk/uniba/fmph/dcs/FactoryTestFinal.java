@@ -9,17 +9,20 @@ public class FactoryTestFinal {
     @Test
     public void take_validValue_updateTableCenter() {
         FakeTableCenter tableCenter = new FakeTableCenter();
-        ArrayList<TyleSource> factories = new ArrayList<>();
+        ArrayList<Factory> factories = new ArrayList<>();
         FakeUsedTyles usedTyles_instance = new FakeUsedTyles();
         FakeBag fakebag = new FakeBag(usedTyles_instance);
 
-        TyleSource factory = new Factory(fakebag, tableCenter);
+        Factory factory = new Factory(fakebag, tableCenter);
         factories.add(factory);
 
         tableCenter.startNewRound();
         factory.startNewRound();
 
-        ArrayList<Tile> result = factory.take(0);
+        Pair nove = factory.take(0);
+        factory = (Factory) nove.getNewFactory();
+
+        ArrayList<Tile> result = nove.getSelectedTiles();
         usedTyles_instance.give(result);
 
         assertFalse(result.isEmpty());
@@ -42,10 +45,16 @@ public class FactoryTestFinal {
         tableCenter.startNewRound();
 
         int invalidIdx = 5;
-        ArrayList<Tile> result = factory.take(invalidIdx);
+        Pair nove = factory.take(invalidIdx);
+        factory = (Factory) nove.getNewFactory();
+
+        ArrayList<Tile> result = nove.getSelectedTiles();
         assertTrue(result.isEmpty());
 
-        ArrayList<Tile> zvysok = factory.take(0);
+        nove = factory.take(0);
+        factory = (Factory) nove.getNewFactory();
+
+        ArrayList<Tile> zvysok = nove.getSelectedTiles();
         zvysok.addAll(tableCenter.take(1));
         zvysok.addAll(tableCenter.take(0));
         usedTyles_instance.give(zvysok);
@@ -58,27 +67,36 @@ public class FactoryTestFinal {
         FakeBag fakebag = new FakeBag(usedTyles_instance);
         Factory factory = new Factory(fakebag, tableCenter);
 
-        assertTrue(factory.take(1).isEmpty());
+        Pair nove = factory.take(1);
+
+        assertTrue(nove.getSelectedTiles().isEmpty());
     }
 
     @Test
     public void isEmpty_started() {
         FakeTableCenter tableCenter = new FakeTableCenter();
-        ArrayList<TyleSource> factories = new ArrayList<>();
+        ArrayList<Factory> factories = new ArrayList<>();
         FakeUsedTyles usedTyles_instance = new FakeUsedTyles();
         FakeBag fakebag = new FakeBag(usedTyles_instance);
 
-        TyleSource factory = new Factory(fakebag, tableCenter);
+        Factory factory = new Factory(fakebag, tableCenter);
         factories.add(factory);
 
         tableCenter.startNewRound();
         factory.startNewRound();
 
-        ArrayList<Tile> result = factory.take(0);
+        Pair nove = factory.take(0);
+        factory = (Factory) nove.getNewFactory();
+
+        ArrayList<Tile> result = nove.getSelectedTiles();
         usedTyles_instance.give(result);
 
         assertFalse(result.isEmpty());
-        assertTrue(factory.take(0).isEmpty());
+
+        nove = factory.take(0);
+        factory = (Factory) nove.getNewFactory();
+
+        assertTrue(nove.getSelectedTiles().isEmpty());
 
         ArrayList<Tile> zvysok = tableCenter.take(1);
         zvysok.addAll(tableCenter.take(0));
@@ -98,7 +116,10 @@ public class FactoryTestFinal {
         tableCenter.startNewRound();
         assertFalse(factory.isEmpty());
 
-        ArrayList<Tile> zvysok = factory.take(0);
+        Pair nove = factory.take(0);
+        factory = (Factory) nove.getNewFactory();
+
+        ArrayList<Tile> zvysok = nove.getSelectedTiles();
         zvysok.addAll(tableCenter.take(1));
         zvysok.addAll(tableCenter.take(0));
         usedTyles_instance.give(zvysok);
@@ -111,7 +132,12 @@ public class FactoryTestFinal {
         FakeBag fakebag = new FakeBag(usedTyles_instance);
         Factory factory = new Factory(fakebag,tableCenter);
 
+        System.out.println(factory.state());
+
         factory.startNewRound();
+
+        System.out.println(factory.state());
+
         tableCenter.startNewRound();
         String expected = "Factory:\n" +
                 "G\n" +
@@ -120,7 +146,10 @@ public class FactoryTestFinal {
                 "B\n";
         assertEquals(expected, factory.state());
 
-        ArrayList<Tile> zvysok = factory.take(0);
+        Pair nove = factory.take(0);
+        factory = (Factory) nove.getNewFactory();
+
+        ArrayList<Tile> zvysok = nove.getSelectedTiles();
         zvysok.addAll(tableCenter.take(1));
         zvysok.addAll(tableCenter.take(0));
         usedTyles_instance.give(zvysok);

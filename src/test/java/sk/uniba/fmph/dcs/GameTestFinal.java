@@ -2,6 +2,7 @@ package sk.uniba.fmph.dcs;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,14 +20,16 @@ public class GameTestFinal {
         }
 
         @Override
-        public ArrayList<Tile> take(int count) {
+        public Pair take(int count) {
+            ArrayList<Tile> remainingTiles = new ArrayList<>(this._tiles);
+            ArrayList<Tile> selectedTiles = new ArrayList<>();
 
-            ArrayList<Tile> vyber = new ArrayList<>();
             for (int i = 0; i < count; i++){
-                vyber.add(this._tiles.get(i));
+                int k = new Random().nextInt(_tiles.size());
+                selectedTiles.add(this._tiles.get(k));
+                remainingTiles.remove(k);
             }
-
-            return vyber;
+            return new Pair(new FakeBag(usedTyles), selectedTiles);
         }
 
         @Override
@@ -38,7 +41,7 @@ public class GameTestFinal {
         FakeTableCenter tableCenter = new FakeTableCenter();
         UsedTilesGiveInterface usedTyles = new FakeUsedTyles();
         FakeBagGame bag = new FakeBagGame(usedTyles);
-        ArrayList<TyleSource> factories = new ArrayList<>();
+        ArrayList<FactoryInterface> factories = new ArrayList<>();
         ArrayList<BoardInterface> boards = new ArrayList<>();
 
         FakeFloor floor = new FakeFloor();
@@ -46,7 +49,7 @@ public class GameTestFinal {
         ArrayList<Tile> tileTypes = new ArrayList<>();
 
         for (int i = 0; i < 2; i++){
-            TyleSource factory = new FakeFactory(bag);
+            FactoryInterface factory = new FakeFactory(bag);
             BoardInterface board = new FakeBoard();
             factories.add(factory);
             boards.add(board);

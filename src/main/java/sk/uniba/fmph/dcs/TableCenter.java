@@ -56,7 +56,7 @@ public class TableCenter implements TyleSource, TableCenterInterface{
     public String state() {
         StringBuilder ans = new StringBuilder();
         ans.append("Table Center:\n");
-        for (Tile tile : _tyles) ans.append(tile.toString()).append("\n");
+        for (Tile tile : _tyles) ans.append(tile.toString());
         return ans.toString();
     }
 

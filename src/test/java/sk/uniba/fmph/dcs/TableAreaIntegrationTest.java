@@ -9,7 +9,16 @@ public class TableAreaIntegrationTest {
         UsedTyles usedTyles = UsedTyles.getInstance();
         TableCenter tableCenter = TableCenter.getInstance();
         ArrayList<Factory> factories = new ArrayList<>();
-        Bag bag = new Bag(usedTyles);
+        ArrayList<Tile> tiles = new ArrayList<>();
+        for (int i = 0; i < 20; i++){
+            tiles.add(Tile.RED);
+            tiles.add(Tile.GREEN);
+            tiles.add(Tile.YELLOW);
+            tiles.add(Tile.BLUE);
+            tiles.add(Tile.BLACK);
+        }
+
+        Bag bag = new Bag(usedTyles, tiles);
         for (int i = 0; i < 2; i++) {
             factories.add(new Factory(bag, tableCenter));
         }

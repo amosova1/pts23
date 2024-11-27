@@ -2,6 +2,7 @@ package sk.uniba.fmph.dcs;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -29,21 +30,23 @@ public class GameIntegrationTest {
             return FakeBag2.BagHolder.INSTANCE;
         }
 
-        public ArrayList<Tile> take(int count) {
+        public Pair take(int count) {
+            ArrayList<Tile> remainingTiles = new ArrayList<>(this._tiles);
+            ArrayList<Tile> selectedTiles = new ArrayList<>();
+
             if (this._tiles.isEmpty() || this._tiles.size() < count){
-                //System.out.println("Bag is empty, refilling");
-                this.refill();
-                //System.out.println(this._tiles.size());
+                ArrayList<Tile> tiles = usedTyles_instance.takeAll();
+                tiles.remove(Tile.STARTING_PLAYER);
+
+                this._tiles.addAll(tiles);
             }
 
-            ArrayList<Tile> vyber = new ArrayList<>();
             for (int i = 0; i < count; i++){
-                vyber.add(this._tiles.get(i));
+                int k = new Random().nextInt(_tiles.size());
+                selectedTiles.add(this._tiles.get(k));
+                remainingTiles.remove(k);
             }
-            for (int i = 0; i < count; i++){
-                this._tiles.remove(0);
-            }
-            return vyber;
+            return new Pair(new Bag(this.usedTyles_instance, remainingTiles), selectedTiles);
         }
 
         public String state(){

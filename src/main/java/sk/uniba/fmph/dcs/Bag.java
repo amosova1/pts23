@@ -4,35 +4,33 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Bag implements BagInteface{
-
     private final ArrayList<Tile> _tiles;
     private final UsedTilesGiveInterface usedTyles_instance;
-    public Bag(UsedTilesGiveInterface usedTyles){
+    public Bag(UsedTilesGiveInterface usedTyles, ArrayList<Tile> tiles){
         this.usedTyles_instance = usedTyles;
-        _tiles = new ArrayList<>();
-
-        for (int i = 0; i < 20; i++){
-            _tiles.add(Tile.RED);
-            _tiles.add(Tile.GREEN);
-            _tiles.add(Tile.YELLOW);
-            _tiles.add(Tile.BLUE);
-            _tiles.add(Tile.BLACK);
-        }
+        _tiles = tiles;
     }
 
     @Override
-    public ArrayList<Tile> take(int count) {
-        if (this._tiles.isEmpty() || this._tiles.size() < count){
-            refill();
+    public Pair take(int count) {
+        ArrayList<Tile> remainingTiles = new ArrayList<>(this._tiles);
+        ArrayList<Tile> selectedTiles = new ArrayList<>();
+        UsedTilesGiveInterface newUsedTiles = usedTyles_instance;
+
+        if (remainingTiles.isEmpty() || remainingTiles.size() < count){
+            ArrayList<Tile> tiles = newUsedTiles.takeAll();
+            tiles.remove(Tile.STARTING_PLAYER);
+
+            remainingTiles.addAll(tiles);
+//            refill();
         }
 
-        ArrayList<Tile> vyber = new ArrayList<>();
         for (int i = 0; i < count; i++){
-            int k = new Random().nextInt(_tiles.size());
-            vyber.add(this._tiles.get(k));
-            this._tiles.remove(k);
+            int k = new Random().nextInt(remainingTiles.size());
+            selectedTiles.add(remainingTiles.get(k));
+            remainingTiles.remove(k);
         }
-        return vyber;
+        return new Pair(new Bag(newUsedTiles, remainingTiles), selectedTiles);
     }
 
     @Override
@@ -45,10 +43,14 @@ public class Bag implements BagInteface{
                 "BLACK:" + this._tiles.stream().filter(x -> x == Tile.BLACK).count() + "\n";
     }
 
-    private void refill(){
-        ArrayList<Tile> tiles = usedTyles_instance.takeAll();
-        tiles.remove(Tile.STARTING_PLAYER);
-
-        this._tiles.addAll(tiles);
-    }
+//    private Pair refill(){
+//        ArrayList<Tile> tiles = new ArrayList<>(_tiles);
+//        ArrayList<Tile> tiles2 = usedTyles_instance.takeAll();
+//        usedTyles_instance.give(tiles2);
+//
+//        tiles.addAll(tiles2);
+//        tiles.remove(Tile.STARTING_PLAYER);
+//
+//        return new Pair(new Bag(this.usedTyles_instance, tiles), new ArrayList<>());
+//    }
 }
