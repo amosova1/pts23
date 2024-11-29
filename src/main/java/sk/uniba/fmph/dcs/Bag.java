@@ -15,25 +15,6 @@ public class Bag implements BagInteface{
 
     @Override
     public Triple take(int count) {
-        /*ArrayList<Tile> remainingTiles = new ArrayList<>(this._tiles);
-        ArrayList<Tile> selectedTiles = new ArrayList<>();
-        UsedTilesGiveInterface newUsedTiles = usedTiles_instance;
-
-        if (remainingTiles.isEmpty() || remainingTiles.size() < count){
-            ArrayList<Tile> tiles = newUsedTiles.takeAll();
-            tiles.remove(Tile.STARTING_PLAYER);
-
-            remainingTiles.addAll(tiles);
-//            refill();
-        }
-
-        for (int i = 0; i < count; i++){
-            int k = new Random().nextInt(remainingTiles.size());
-            selectedTiles.add(remainingTiles.get(k));
-            remainingTiles.remove(k);
-        }
-        return new Pair(new Bag(newUsedTiles, remainingTiles), selectedTiles);*/
-
         ArrayList<Tile> remainingTiles = new ArrayList<>(_tiles);
         UsedTilesGiveInterface newUsedTiles = usedTiles_instance;
 

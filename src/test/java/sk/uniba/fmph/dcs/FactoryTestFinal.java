@@ -122,12 +122,8 @@ public class FactoryTestFinal {
         FakeBag fakebag = new FakeBag(usedTyles_instance);
         Factory factory = new Factory(fakebag,tableCenter, new ArrayList<>());
 
-        System.out.println(factory.state());
-
         Triple nove = factory.startNewRound();
         factory = (Factory) nove.getNewFactory();
-
-        System.out.println(factory.state());
 
         tableCenter.startNewRound();
         String expected = "Factory:\n" +

@@ -50,10 +50,8 @@ public class BagTestFinal {
         Triple nove = bag.take(1);
         bag = (Bag) nove.getNewBag();
         usedTyles = (FakeUsedTyles) nove.getUsedTyles();
-        System.out.println(bag.state());
 
         Tile takenTile = nove.getSelectedTiles().get(0);
-        System.out.println(takenTile);
 
         usedTyles.give(tiles);
         String expected = switch (takenTile) {
