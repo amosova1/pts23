@@ -3,6 +3,7 @@ package sk.uniba.fmph.dcs;
 import java.util.ArrayList;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static sk.uniba.fmph.dcs.Tile.*;
 
 public class FactoryTestFinal {
 
@@ -150,6 +151,29 @@ public class FactoryTestFinal {
         Factory factory = new Factory(fakebag, tableCenter, new ArrayList<>());
 
         assertEquals("Factory:\n", factory.state());
+    }
+
+    @Test
+    public void immutable_Check(){
+        FakeTableCenter tableCenter = new FakeTableCenter();
+        FakeUsedTyles usedTyles_instance = new FakeUsedTyles();
+        FakeBag fakebag = new FakeBag(usedTyles_instance);
+        ArrayList<Tile> tiles = new ArrayList<>();
+        tiles.add(GREEN);
+        tiles.add(RED);
+        tiles.add(RED);
+        tiles.add(BLUE);
+        Factory factory = new Factory(fakebag, tableCenter, tiles);
+
+        Triple nove = factory.take(0);
+        Factory newFactory = (Factory) nove.getNewFactory();
+
+        assertEquals("Factory:\n" +
+                "G\n" +
+                "R\n" +
+                "R\n" +
+                "B", factory.state());
+        assertNull(newFactory);
     }
 
 }

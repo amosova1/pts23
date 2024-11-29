@@ -23,7 +23,7 @@ public class BagTestFinal {
 
         Bag bag = new Bag(usedTyles, tiles);
         Triple nove = bag.take(100);
-        bag = (Bag)nove.getNewBag();
+        bag = (Bag) nove.getNewBag();
 
         String expected = "Bag:\n" +
                 "RED:0\n" +
@@ -159,6 +159,30 @@ public class BagTestFinal {
         ArrayList<Tile> get = nove.getSelectedTiles();
 
         assertFalse(get.contains(Tile.STARTING_PLAYER));
+    }
+
+    @Test
+    public void immutability_Check() {
+        FakeUsedTyles usedTyles = new FakeUsedTyles();
+        ArrayList<Tile> tiles = new ArrayList<>();
+        tiles.add(RED);
+        tiles.add(GREEN);
+        tiles.add(YELLOW);
+        tiles.add(BLUE);
+        tiles.add(BLACK);
+
+
+        Bag bag = new Bag(usedTyles, tiles);
+        Triple nove = bag.take(4);
+        ArrayList<Tile> taken = nove.getSelectedTiles();
+        Bag newBag = (Bag) nove.getNewBag();
+
+        Triple nove2 = newBag.take(1);
+        ArrayList<Tile> taken2 = nove2.getSelectedTiles();
+
+        boolean isSame = taken.contains(taken2.get(0));
+
+        assertFalse(isSame);
     }
 
 }
