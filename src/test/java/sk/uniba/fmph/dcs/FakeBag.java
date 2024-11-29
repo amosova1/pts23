@@ -15,7 +15,7 @@ public class FakeBag implements BagInteface{
     }
 
     @Override
-    public Pair take(int count) {
+    public Triple take(int count) {
         ArrayList<Tile> remainingTiles = new ArrayList<>(this._tiles);
         ArrayList<Tile> selectedTiles = new ArrayList<>();
         UsedTilesGiveInterface newUsedTiles = usedTyles_instance;
@@ -32,7 +32,7 @@ public class FakeBag implements BagInteface{
             selectedTiles.add(remainingTiles.get(0));
             remainingTiles.remove(0);
         }
-        return new Pair(new Bag(newUsedTiles, remainingTiles), selectedTiles);
+        return new Triple(new Bag(newUsedTiles, remainingTiles), selectedTiles, newUsedTiles);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class FakeBag implements BagInteface{
         return "";
     }
 
-//    private Pair refill(){
+//    private Triple refill(){
 //        ArrayList<Tile> tiles = new ArrayList<>(_tiles);
 //        ArrayList<Tile> tiles2 = usedTyles_instance.takeAll();
 //        usedTyles_instance.give(tiles2);
@@ -48,6 +48,6 @@ public class FakeBag implements BagInteface{
 //        tiles.addAll(tiles2);
 //        tiles.remove(Tile.STARTING_PLAYER);
 //
-//        return new Pair(new Bag(this.usedTyles_instance, tiles), new ArrayList<>());
+//        return new Triple(new Bag(this.usedTyles_instance, tiles), new ArrayList<>());
 //    }
 }

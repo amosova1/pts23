@@ -48,7 +48,7 @@ public class FakeTableArea implements TableAreaInterface{
             return fin;
         }
 
-        Pair nove = tyleSource.take(idx);
+        Triple nove = tyleSource.take(idx);
         tyleSource = (Factory) nove.getNewFactory();
         factories.set(sourceId - 1, tyleSource);
 

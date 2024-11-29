@@ -3,8 +3,8 @@ package sk.uniba.fmph.dcs;
 import java.util.ArrayList;
 
 public interface FactoryInterface {
-    Pair take(int idx);
+    Triple take(int idx);
     boolean isEmpty();
-    void startNewRound();
+    Triple startNewRound();
     String state();
 }

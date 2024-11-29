@@ -20,7 +20,7 @@ public class TableAreaIntegrationTest {
 
         Bag bag = new Bag(usedTyles, tiles);
         for (int i = 0; i < 2; i++) {
-            factories.add(new Factory(bag, tableCenter));
+            factories.add(new Factory(bag, tableCenter, new ArrayList<>()));
         }
 
         TableArea tableArea = new TableArea(tableCenter, factories);

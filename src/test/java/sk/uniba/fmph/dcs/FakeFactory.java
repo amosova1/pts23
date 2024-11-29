@@ -6,20 +6,20 @@ public class FakeFactory implements FactoryInterface{
     private ArrayList<Tile> _tyles;
     private  BagInteface bag_instance;
     private final TableCenter tableCenter_instance;
-    public FakeFactory(BagInteface bag_instance){
+    public FakeFactory(BagInteface bag_instance, ArrayList<Tile> tile){
         this.tableCenter_instance = TableCenter.getInstance();
         this.bag_instance = bag_instance;
-        _tyles = new ArrayList<>();
+        _tyles = new ArrayList<>(tile);
     }
 
     @Override
-    public Pair take(int idx) {
+    public Triple take(int idx) {
         ArrayList<Tile> selectedTiles = new ArrayList<>();
         ArrayList<Tile> remainingTiles = new ArrayList<>(this._tyles);
         TableCenterInterface newTableCenter_interface = tableCenter_instance;
 
         if (idx < 0 || idx >= 4 || remainingTiles.isEmpty()){
-            return new Pair((FactoryInterface) new Factory(bag_instance, newTableCenter_interface), selectedTiles);
+            return new Triple(bag_instance, selectedTiles, UsedTyles.getInstance());
         }
         for (Tile tyle : remainingTiles) {
             if (remainingTiles.get(idx).equals(tyle)) {
@@ -34,7 +34,7 @@ public class FakeFactory implements FactoryInterface{
         remainingTiles.clear();
         newTableCenter_interface.add(vyber2);
 
-        return new Pair((FactoryInterface) new Factory(bag_instance, newTableCenter_interface), selectedTiles);
+        return new Triple(bag_instance, selectedTiles, UsedTyles.getInstance());
     }
 
     @Override
@@ -43,11 +43,12 @@ public class FakeFactory implements FactoryInterface{
     }
 
     @Override
-    public void startNewRound() {
-        Pair nove = bag_instance.take(4);
+    public Triple startNewRound() {
+        Triple nove = bag_instance.take(4);
         bag_instance = nove.getNewBag();
+        UsedTilesGiveInterface newUsedTiles = nove.getUsedTyles();
 
-        this._tyles = nove.getSelectedTiles();
+        return new Triple(bag_instance, new FakeFactory(bag_instance, nove.getSelectedTiles()), newUsedTiles);
     }
 
     @Override

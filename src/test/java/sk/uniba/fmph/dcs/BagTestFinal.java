@@ -22,7 +22,7 @@ public class BagTestFinal {
         }
 
         Bag bag = new Bag(usedTyles, tiles);
-        Pair nove = bag.take(100);
+        Triple nove = bag.take(100);
         bag = (Bag)nove.getNewBag();
 
         String expected = "Bag:\n" +
@@ -47,8 +47,9 @@ public class BagTestFinal {
         }
 
         Bag bag = new Bag(usedTyles, tiles);
-        Pair nove = bag.take(1);
+        Triple nove = bag.take(1);
         bag = (Bag) nove.getNewBag();
+        usedTyles = (FakeUsedTyles) nove.getUsedTyles();
         System.out.println(bag.state());
 
         Tile takenTile = nove.getSelectedTiles().get(0);
@@ -107,8 +108,7 @@ public class BagTestFinal {
         Bag bag = new Bag(usedTyles, tiles);
 
         int count = 3;
-        Pair nove = bag.take(count);
-        bag = (Bag) nove.getNewBag();
+        Triple nove = bag.take(count);
 
         tiles = nove.getSelectedTiles();
 
@@ -128,15 +128,15 @@ public class BagTestFinal {
         }
 
         Bag bag = new Bag(usedTyles, tiles);
-        Pair nove = bag.take(99);
+        Triple nove = bag.take(99);
         bag = (Bag) nove.getNewBag();
+        usedTyles = (FakeUsedTyles) nove.getUsedTyles();
 
         ArrayList<Tile> zobrane = nove.getSelectedTiles();
         usedTyles.give(zobrane);
 
         int count = 3;
         nove = bag.take(count);
-        bag = (Bag) nove.getNewBag();
 
         tiles = nove.getSelectedTiles();
 
@@ -156,8 +156,7 @@ public class BagTestFinal {
         }
 
         Bag bag = new Bag(usedTyles, tiles);
-        Pair nove = bag.take(100);
-        bag = (Bag) nove.getNewBag();
+        Triple nove = bag.take(100);
 
         ArrayList<Tile> get = nove.getSelectedTiles();
 

@@ -20,7 +20,7 @@ public class GameTestFinal {
         }
 
         @Override
-        public Pair take(int count) {
+        public Triple take(int count) {
             ArrayList<Tile> remainingTiles = new ArrayList<>(this._tiles);
             ArrayList<Tile> selectedTiles = new ArrayList<>();
 
@@ -29,7 +29,7 @@ public class GameTestFinal {
                 selectedTiles.add(this._tiles.get(k));
                 remainingTiles.remove(k);
             }
-            return new Pair(new FakeBag(usedTyles), selectedTiles);
+            return new Triple(new FakeBag(usedTyles), selectedTiles, UsedTyles.getInstance());
         }
 
         @Override
@@ -49,7 +49,7 @@ public class GameTestFinal {
         ArrayList<Tile> tileTypes = new ArrayList<>();
 
         for (int i = 0; i < 2; i++){
-            FactoryInterface factory = new FakeFactory(bag);
+            FactoryInterface factory = new FakeFactory(bag, new ArrayList<>());
             BoardInterface board = new FakeBoard();
             factories.add(factory);
             boards.add(board);

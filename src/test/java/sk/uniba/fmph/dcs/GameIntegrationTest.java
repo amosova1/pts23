@@ -30,7 +30,7 @@ public class GameIntegrationTest {
             return FakeBag2.BagHolder.INSTANCE;
         }
 
-        public Pair take(int count) {
+        public Triple take(int count) {
             ArrayList<Tile> remainingTiles = new ArrayList<>(this._tiles);
             ArrayList<Tile> selectedTiles = new ArrayList<>();
 
@@ -46,7 +46,7 @@ public class GameIntegrationTest {
                 selectedTiles.add(this._tiles.get(k));
                 remainingTiles.remove(k);
             }
-            return new Pair(new Bag(this.usedTyles_instance, remainingTiles), selectedTiles);
+            return new Triple(new Bag(this.usedTyles_instance, remainingTiles), selectedTiles, this.usedTyles_instance);
         }
 
         public String state(){
@@ -117,7 +117,7 @@ public class GameIntegrationTest {
 
         ArrayList<Factory> factories = new ArrayList<>();
         for (int i = 0; i < pocetFactories; i++){
-            Factory f = new Factory(bag_instance, tableCenter_instance);
+            Factory f = new Factory(bag_instance, tableCenter_instance, new ArrayList<>());
             factories.add(f);
         }
 

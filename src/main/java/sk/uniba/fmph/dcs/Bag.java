@@ -1,21 +1,23 @@
 package sk.uniba.fmph.dcs;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class Bag implements BagInteface{
     private final ArrayList<Tile> _tiles;
-    private final UsedTilesGiveInterface usedTyles_instance;
-    public Bag(UsedTilesGiveInterface usedTyles, ArrayList<Tile> tiles){
-        this.usedTyles_instance = usedTyles;
-        _tiles = tiles;
+    private final UsedTilesGiveInterface usedTiles_instance;
+    public Bag(UsedTilesGiveInterface usedTiles, ArrayList<Tile> tiles){
+        this.usedTiles_instance = usedTiles;
+        _tiles = new ArrayList<>(tiles);
     }
 
     @Override
-    public Pair take(int count) {
-        ArrayList<Tile> remainingTiles = new ArrayList<>(this._tiles);
+    public Triple take(int count) {
+        /*ArrayList<Tile> remainingTiles = new ArrayList<>(this._tiles);
         ArrayList<Tile> selectedTiles = new ArrayList<>();
-        UsedTilesGiveInterface newUsedTiles = usedTyles_instance;
+        UsedTilesGiveInterface newUsedTiles = usedTiles_instance;
 
         if (remainingTiles.isEmpty() || remainingTiles.size() < count){
             ArrayList<Tile> tiles = newUsedTiles.takeAll();
@@ -30,7 +32,30 @@ public class Bag implements BagInteface{
             selectedTiles.add(remainingTiles.get(k));
             remainingTiles.remove(k);
         }
-        return new Pair(new Bag(newUsedTiles, remainingTiles), selectedTiles);
+        return new Pair(new Bag(newUsedTiles, remainingTiles), selectedTiles);*/
+
+        ArrayList<Tile> remainingTiles = new ArrayList<>(_tiles);
+        UsedTilesGiveInterface newUsedTiles = usedTiles_instance;
+
+        if (remainingTiles.isEmpty() || remainingTiles.size() < count) {
+            List<Tile> usedTiles = newUsedTiles.takeAll().stream()
+                    .filter(tile -> tile != Tile.STARTING_PLAYER)
+                    .collect(Collectors.toList());
+            remainingTiles.addAll(usedTiles);
+        }
+
+        Random random = new Random();
+        List<Tile> selectedTiles = random.ints(0, remainingTiles.size())
+                .distinct()
+                .limit(Math.min(count, remainingTiles.size()))
+                .mapToObj(remainingTiles::get)
+                .collect(Collectors.toList());
+
+        for (Tile t: selectedTiles){
+            remainingTiles.remove(t);
+        }
+
+        return new Triple(new Bag(newUsedTiles, remainingTiles), (ArrayList<Tile>) selectedTiles, newUsedTiles);
     }
 
     @Override
@@ -42,15 +67,4 @@ public class Bag implements BagInteface{
                 "BLUE:" + this._tiles.stream().filter(x -> x == Tile.BLUE).count() + "\n" +
                 "BLACK:" + this._tiles.stream().filter(x -> x == Tile.BLACK).count() + "\n";
     }
-
-//    private Pair refill(){
-//        ArrayList<Tile> tiles = new ArrayList<>(_tiles);
-//        ArrayList<Tile> tiles2 = usedTyles_instance.takeAll();
-//        usedTyles_instance.give(tiles2);
-//
-//        tiles.addAll(tiles2);
-//        tiles.remove(Tile.STARTING_PLAYER);
-//
-//        return new Pair(new Bag(this.usedTyles_instance, tiles), new ArrayList<>());
-//    }
 }
